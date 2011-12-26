@@ -1,0 +1,272 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		27B6ED9F14A82F0F004053F2 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27B6ED9E14A82F0F004053F2 /* UIKit.framework */; };
+		27B6EDA114A82F0F004053F2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27B6EDA014A82F0F004053F2 /* Foundation.framework */; };
+		27B6EDA314A82F0F004053F2 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27B6EDA214A82F0F004053F2 /* CoreGraphics.framework */; };
+		27B6EDAB14A82F0F004053F2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 27B6EDAA14A82F0F004053F2 /* main.m */; };
+		27B6EDAF14A82F0F004053F2 /* KLAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 27B6EDAE14A82F0F004053F2 /* KLAppDelegate.m */; };
+		27B6EDC414A8317C004053F2 /* BasicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27B6EDC314A8317C004053F2 /* BasicViewController.m */; };
+		27B6EDC714A83297004053F2 /* ExampleSelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27B6EDC614A83297004053F2 /* ExampleSelectionViewController.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		27B6ED9A14A82F0F004053F2 /* iMonthly.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iMonthly.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		27B6ED9E14A82F0F004053F2 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		27B6EDA014A82F0F004053F2 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		27B6EDA214A82F0F004053F2 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		27B6EDA614A82F0F004053F2 /* iMonthly-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "iMonthly-Info.plist"; path = "iMonthly/iMonthly-Info.plist"; sourceTree = "<group>"; };
+		27B6EDAA14A82F0F004053F2 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = main.m; path = iMonthly/main.m; sourceTree = "<group>"; };
+		27B6EDAC14A82F0F004053F2 /* iMonthly-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "iMonthly-Prefix.pch"; path = "iMonthly/iMonthly-Prefix.pch"; sourceTree = "<group>"; };
+		27B6EDAD14A82F0F004053F2 /* KLAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = KLAppDelegate.h; path = iMonthly/KLAppDelegate.h; sourceTree = "<group>"; };
+		27B6EDAE14A82F0F004053F2 /* KLAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = KLAppDelegate.m; path = iMonthly/KLAppDelegate.m; sourceTree = "<group>"; };
+		27B6EDC114A8311A004053F2 /* iMonthly.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iMonthly.h; sourceTree = "<group>"; };
+		27B6EDC214A8317C004053F2 /* BasicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BasicViewController.h; path = iMonthly/BasicViewController.h; sourceTree = "<group>"; };
+		27B6EDC314A8317C004053F2 /* BasicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BasicViewController.m; path = iMonthly/BasicViewController.m; sourceTree = "<group>"; };
+		27B6EDC514A83297004053F2 /* ExampleSelectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ExampleSelectionViewController.h; path = iMonthly/ExampleSelectionViewController.h; sourceTree = "<group>"; };
+		27B6EDC614A83297004053F2 /* ExampleSelectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ExampleSelectionViewController.m; path = iMonthly/ExampleSelectionViewController.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		27B6ED9714A82F0F004053F2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				27B6ED9F14A82F0F004053F2 /* UIKit.framework in Frameworks */,
+				27B6EDA114A82F0F004053F2 /* Foundation.framework in Frameworks */,
+				27B6EDA314A82F0F004053F2 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		27B6ED8F14A82F0F004053F2 = {
+			isa = PBXGroup;
+			children = (
+				27B6EDC014A8311A004053F2 /* Classes */,
+				27B6EDB914A82FD9004053F2 /* App */,
+				27B6EDBB14A8308F004053F2 /* View Controllers */,
+				27B6ED9D14A82F0F004053F2 /* Frameworks */,
+				27B6ED9B14A82F0F004053F2 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		27B6ED9B14A82F0F004053F2 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				27B6ED9A14A82F0F004053F2 /* iMonthly.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		27B6ED9D14A82F0F004053F2 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				27B6ED9E14A82F0F004053F2 /* UIKit.framework */,
+				27B6EDA014A82F0F004053F2 /* Foundation.framework */,
+				27B6EDA214A82F0F004053F2 /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		27B6EDB914A82FD9004053F2 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				27B6EDA614A82F0F004053F2 /* iMonthly-Info.plist */,
+				27B6EDAA14A82F0F004053F2 /* main.m */,
+				27B6EDAC14A82F0F004053F2 /* iMonthly-Prefix.pch */,
+				27B6EDAD14A82F0F004053F2 /* KLAppDelegate.h */,
+				27B6EDAE14A82F0F004053F2 /* KLAppDelegate.m */,
+			);
+			name = App;
+			sourceTree = "<group>";
+		};
+		27B6EDBB14A8308F004053F2 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				27B6EDC514A83297004053F2 /* ExampleSelectionViewController.h */,
+				27B6EDC614A83297004053F2 /* ExampleSelectionViewController.m */,
+				27B6EDC214A8317C004053F2 /* BasicViewController.h */,
+				27B6EDC314A8317C004053F2 /* BasicViewController.m */,
+			);
+			name = "View Controllers";
+			sourceTree = "<group>";
+		};
+		27B6EDC014A8311A004053F2 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				27B6EDC114A8311A004053F2 /* iMonthly.h */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		27B6ED9914A82F0F004053F2 /* iMonthly */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 27B6EDB214A82F0F004053F2 /* Build configuration list for PBXNativeTarget "iMonthly" */;
+			buildPhases = (
+				27B6ED9614A82F0F004053F2 /* Sources */,
+				27B6ED9714A82F0F004053F2 /* Frameworks */,
+				27B6ED9814A82F0F004053F2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = iMonthly;
+			productName = iMonthly;
+			productReference = 27B6ED9A14A82F0F004053F2 /* iMonthly.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		27B6ED9114A82F0F004053F2 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+				ORGANIZATIONNAME = "LeNeau Software";
+			};
+			buildConfigurationList = 27B6ED9414A82F0F004053F2 /* Build configuration list for PBXProject "iMonthly" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 27B6ED8F14A82F0F004053F2;
+			productRefGroup = 27B6ED9B14A82F0F004053F2 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				27B6ED9914A82F0F004053F2 /* iMonthly */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		27B6ED9814A82F0F004053F2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		27B6ED9614A82F0F004053F2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				27B6EDAB14A82F0F004053F2 /* main.m in Sources */,
+				27B6EDAF14A82F0F004053F2 /* KLAppDelegate.m in Sources */,
+				27B6EDC414A8317C004053F2 /* BasicViewController.m in Sources */,
+				27B6EDC714A83297004053F2 /* ExampleSelectionViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		27B6EDB014A82F0F004053F2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		27B6EDB114A82F0F004053F2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		27B6EDB314A82F0F004053F2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "iMonthly/iMonthly-Prefix.pch";
+				INFOPLIST_FILE = "iMonthly/iMonthly-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		27B6EDB414A82F0F004053F2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "iMonthly/iMonthly-Prefix.pch";
+				INFOPLIST_FILE = "iMonthly/iMonthly-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		27B6ED9414A82F0F004053F2 /* Build configuration list for PBXProject "iMonthly" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				27B6EDB014A82F0F004053F2 /* Debug */,
+				27B6EDB114A82F0F004053F2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		27B6EDB214A82F0F004053F2 /* Build configuration list for PBXNativeTarget "iMonthly" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				27B6EDB314A82F0F004053F2 /* Debug */,
+				27B6EDB414A82F0F004053F2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 27B6ED9114A82F0F004053F2 /* Project object */;
+}
