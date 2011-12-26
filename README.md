@@ -1,5 +1,5 @@
-#iMonthly#
-------------------
+iMonthly
+========
 
 iMonthly is aimed at being a simple to use calendar month view for the iPhone SDK.  This project will strive to meet the following goals.
 
@@ -8,8 +8,9 @@ iMonthly is aimed at being a simple to use calendar month view for the iPhone SD
 3. Provide an API for developers to configure and interact with the calnedar programatically.
 4. Provide a delegate for developers to respond to user events.
 
-##Personal Goals##
-------------------
+
+Personal Goals
+--------------
 
 Along with trying to provide for the above goals, this will be my first venture into core-graphics drawing and core animation.  I would like to try and learn a new portion of the iPhone SDK and figured an Open Source Calendar would be a good start since I have made one before.
 
