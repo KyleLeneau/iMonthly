@@ -10,10 +10,11 @@
 
 @implementation BasicViewController
 
+@synthesize calendar = _calendar;
+
 - (id)init
 {
     if ((self = [super init])) {
-        
     }
     return self;
 }
@@ -29,6 +30,8 @@
 - (void)loadView
 {
     self.view = [[UIView alloc] init];
+    self.calendar = [[iMonthlyView alloc] initWithFrame:CGRectMake(0, 0, 320, 320)];
+    [self.view addSubview:self.calendar];
 }
 
 - (void)viewDidUnload

@@ -7,16 +7,22 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		27058B6D14AC58DC00222ADC /* BasicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27058B6A14AC58DC00222ADC /* BasicViewController.m */; };
+		27058B6E14AC58DC00222ADC /* ExampleSelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27058B6C14AC58DC00222ADC /* ExampleSelectionViewController.m */; };
 		27B6ED9F14A82F0F004053F2 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27B6ED9E14A82F0F004053F2 /* UIKit.framework */; };
 		27B6EDA114A82F0F004053F2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27B6EDA014A82F0F004053F2 /* Foundation.framework */; };
 		27B6EDA314A82F0F004053F2 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27B6EDA214A82F0F004053F2 /* CoreGraphics.framework */; };
 		27B6EDAB14A82F0F004053F2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 27B6EDAA14A82F0F004053F2 /* main.m */; };
 		27B6EDAF14A82F0F004053F2 /* KLAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 27B6EDAE14A82F0F004053F2 /* KLAppDelegate.m */; };
-		27B6EDC414A8317C004053F2 /* BasicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27B6EDC314A8317C004053F2 /* BasicViewController.m */; };
-		27B6EDC714A83297004053F2 /* ExampleSelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27B6EDC614A83297004053F2 /* ExampleSelectionViewController.m */; };
+		27B6EDCD14A98C75004053F2 /* iMonthlyView.m in Sources */ = {isa = PBXBuildFile; fileRef = 27B6EDCC14A98C75004053F2 /* iMonthlyView.m */; };
+		27B6EDD014A98CB9004053F2 /* NSDate+iMontly.m in Sources */ = {isa = PBXBuildFile; fileRef = 27B6EDCF14A98CB9004053F2 /* NSDate+iMontly.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		27058B6914AC58DC00222ADC /* BasicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BasicViewController.h; sourceTree = "<group>"; };
+		27058B6A14AC58DC00222ADC /* BasicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BasicViewController.m; sourceTree = "<group>"; };
+		27058B6B14AC58DC00222ADC /* ExampleSelectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExampleSelectionViewController.h; sourceTree = "<group>"; };
+		27058B6C14AC58DC00222ADC /* ExampleSelectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExampleSelectionViewController.m; sourceTree = "<group>"; };
 		27B6ED9A14A82F0F004053F2 /* iMonthly.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iMonthly.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		27B6ED9E14A82F0F004053F2 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		27B6EDA014A82F0F004053F2 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -27,10 +33,10 @@
 		27B6EDAD14A82F0F004053F2 /* KLAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = KLAppDelegate.h; path = iMonthly/KLAppDelegate.h; sourceTree = "<group>"; };
 		27B6EDAE14A82F0F004053F2 /* KLAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = KLAppDelegate.m; path = iMonthly/KLAppDelegate.m; sourceTree = "<group>"; };
 		27B6EDC114A8311A004053F2 /* iMonthly.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iMonthly.h; sourceTree = "<group>"; };
-		27B6EDC214A8317C004053F2 /* BasicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BasicViewController.h; path = iMonthly/BasicViewController.h; sourceTree = "<group>"; };
-		27B6EDC314A8317C004053F2 /* BasicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BasicViewController.m; path = iMonthly/BasicViewController.m; sourceTree = "<group>"; };
-		27B6EDC514A83297004053F2 /* ExampleSelectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ExampleSelectionViewController.h; path = iMonthly/ExampleSelectionViewController.h; sourceTree = "<group>"; };
-		27B6EDC614A83297004053F2 /* ExampleSelectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ExampleSelectionViewController.m; path = iMonthly/ExampleSelectionViewController.m; sourceTree = "<group>"; };
+		27B6EDCB14A98C75004053F2 /* iMonthlyView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iMonthlyView.h; sourceTree = "<group>"; };
+		27B6EDCC14A98C75004053F2 /* iMonthlyView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iMonthlyView.m; sourceTree = "<group>"; };
+		27B6EDCE14A98CB9004053F2 /* NSDate+iMontly.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+iMontly.h"; sourceTree = "<group>"; };
+		27B6EDCF14A98CB9004053F2 /* NSDate+iMontly.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+iMontly.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,12 +53,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		27058B6714AC58DC00222ADC /* Examples */ = {
+			isa = PBXGroup;
+			children = (
+				27058B6B14AC58DC00222ADC /* ExampleSelectionViewController.h */,
+				27058B6C14AC58DC00222ADC /* ExampleSelectionViewController.m */,
+				27058B6814AC58DC00222ADC /* Basic */,
+			);
+			path = Examples;
+			sourceTree = "<group>";
+		};
+		27058B6814AC58DC00222ADC /* Basic */ = {
+			isa = PBXGroup;
+			children = (
+				27058B6914AC58DC00222ADC /* BasicViewController.h */,
+				27058B6A14AC58DC00222ADC /* BasicViewController.m */,
+			);
+			path = Basic;
+			sourceTree = "<group>";
+		};
 		27B6ED8F14A82F0F004053F2 = {
 			isa = PBXGroup;
 			children = (
 				27B6EDC014A8311A004053F2 /* Classes */,
 				27B6EDB914A82FD9004053F2 /* App */,
-				27B6EDBB14A8308F004053F2 /* View Controllers */,
+				27058B6714AC58DC00222ADC /* Examples */,
 				27B6ED9D14A82F0F004053F2 /* Frameworks */,
 				27B6ED9B14A82F0F004053F2 /* Products */,
 			);
@@ -88,21 +113,14 @@
 			name = App;
 			sourceTree = "<group>";
 		};
-		27B6EDBB14A8308F004053F2 /* View Controllers */ = {
-			isa = PBXGroup;
-			children = (
-				27B6EDC514A83297004053F2 /* ExampleSelectionViewController.h */,
-				27B6EDC614A83297004053F2 /* ExampleSelectionViewController.m */,
-				27B6EDC214A8317C004053F2 /* BasicViewController.h */,
-				27B6EDC314A8317C004053F2 /* BasicViewController.m */,
-			);
-			name = "View Controllers";
-			sourceTree = "<group>";
-		};
 		27B6EDC014A8311A004053F2 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
 				27B6EDC114A8311A004053F2 /* iMonthly.h */,
+				27B6EDCE14A98CB9004053F2 /* NSDate+iMontly.h */,
+				27B6EDCF14A98CB9004053F2 /* NSDate+iMontly.m */,
+				27B6EDCB14A98C75004053F2 /* iMonthlyView.h */,
+				27B6EDCC14A98C75004053F2 /* iMonthlyView.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -170,8 +188,10 @@
 			files = (
 				27B6EDAB14A82F0F004053F2 /* main.m in Sources */,
 				27B6EDAF14A82F0F004053F2 /* KLAppDelegate.m in Sources */,
-				27B6EDC414A8317C004053F2 /* BasicViewController.m in Sources */,
-				27B6EDC714A83297004053F2 /* ExampleSelectionViewController.m in Sources */,
+				27B6EDCD14A98C75004053F2 /* iMonthlyView.m in Sources */,
+				27B6EDD014A98CB9004053F2 /* NSDate+iMontly.m in Sources */,
+				27058B6D14AC58DC00222ADC /* BasicViewController.m in Sources */,
+				27058B6E14AC58DC00222ADC /* ExampleSelectionViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

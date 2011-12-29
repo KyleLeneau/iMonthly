@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "iMonthly.h"
 
 @interface BasicViewController : UIViewController
+
+@property (nonatomic, strong) iMonthlyView *calendar;
 
 @end
