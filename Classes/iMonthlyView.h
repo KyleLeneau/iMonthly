@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "NSDate+iMontly.h"
+#import "iMonthlyCommon.h"
 @class iMonthlyView;
 
 
@@ -24,6 +26,3 @@
 }
 
 @end
-
-
-void drawLinearGradient(CGContextRef context, CGRect rect, CGColorRef startColor, CGColorRef endColor);

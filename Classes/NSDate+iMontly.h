@@ -22,6 +22,7 @@
 
 - (NSInteger)firstWeekdayOfMonth;
 - (NSInteger)lastDayOfMonth;
+- (NSInteger)visibleWeeksInMonth;
 
 - (BOOL)isSameDate:(NSDate *)day;
 - (BOOL)monthContainsDay:(NSDate *)day;

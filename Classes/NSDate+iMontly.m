@@ -125,4 +125,11 @@
     return daysRange.length;
 }
 
+- (NSInteger)visibleWeeksInMonth
+{
+    NSInteger firstDay = [self firstWeekdayOfMonth] - 1;
+    double count = firstDay + [self lastDayOfMonth];
+    return ceilf(count / 7);
+}
+
 @end
