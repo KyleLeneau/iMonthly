@@ -12,6 +12,11 @@
 
 @end
 
+CGRect rectByChangingSize(CGRect rect, CGFloat deltaWidth, CGFloat deltaHeight)
+{
+    return CGRectMake(rect.origin.x, rect.origin.y, rect.size.width + deltaWidth, rect.size.height + deltaHeight);
+}
+
 CGRect rectFor1PxStroke(CGRect rect) 
 {
     return CGRectMake(rect.origin.x + 0.5, rect.origin.y + 0.5, rect.size.width - 1, rect.size.height - 1);

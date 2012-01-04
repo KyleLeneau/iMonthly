@@ -42,18 +42,26 @@ static const CGSize kLabelSize = { 30.f, 22.f };
         _font = [UIFont boldSystemFontOfSize:24.f];
         _darkColor = [UIColor darkTextColor];
         _whiteColor = [UIColor whiteColor];
-        _lightColor = [UIColor lightTextColor];
+        _lightColor = [UIColor lightGrayColor];
         
         CGRect _labelRect = CGRectMake((frame.size.width - kLabelSize.width) / 2, 8, kLabelSize.width, kLabelSize.height);
         _dayNumberLabel = [[UILabel alloc] initWithFrame:_labelRect];
         _dayNumberLabel.backgroundColor = [UIColor clearColor];
         _dayNumberLabel.textAlignment = UITextAlignmentCenter;
         _dayNumberLabel.font = _font;
-        _dayNumberLabel.text = @"2";
+        _dayNumberLabel.text = [NSString stringWithFormat:@"%u", [_date dayNumber]];
         [self setDayCellState:kDayCellStateUnKnown];
         [self addSubview:_dayNumberLabel];
     }
     return self;
+}
+
+- (void)setDate:(NSDate *)date
+{
+    _date = Nil;
+    _date = date;
+    
+    _dayNumberLabel.text = [NSString stringWithFormat:@"%u", [_date dayNumber]];
 }
 
 - (void)setDayCellState:(kDayCellState)state
@@ -70,11 +78,17 @@ static const CGSize kLabelSize = { 30.f, 22.f };
             _dayNumberLabel.textColor = _whiteColor;
             _dayNumberLabel.shadowColor = _darkColor;
             _dayNumberLabel.shadowOffset = CGSizeMake(0, 1);
+            
+            CGRect todayRect = rectByChangingSize(self.frame, 1, 1);
+            self.frame = todayRect;
             break;
         case kDayCellStateSelected:
             _dayNumberLabel.textColor = _whiteColor;
             _dayNumberLabel.shadowColor = _darkColor;
             _dayNumberLabel.shadowOffset = CGSizeMake(0, -1);
+            
+            CGRect selectedRect = rectByChangingSize(self.frame, 1, 1);
+            self.frame = selectedRect;
             break;
         case kDayCellStateInMonth:
         default:
@@ -85,20 +99,28 @@ static const CGSize kLabelSize = { 30.f, 22.f };
     }
 }
 
-//- (void)drawRect:(CGRect)rect
-//{
-//    CGContextRef context = UIGraphicsGetCurrentContext();
-//    
-//    // Add a color for red up where the colors are
-//    [[UIColor colorWithRed:154.0/255.0 green:158.0/255.0 blue:167.0/255.0 alpha:0.75] setStroke];
-//    
-//    CGContextSaveGState(context);
-//    CGContextMoveToPoint(context, 0, 0.5);
-//    CGContextAddLineToPoint(context, rect.size.width - 1 + 0.5, 0 + 0.5);
-//    CGContextAddLineToPoint(context, rect.size.width - 1 + 0.5, rect.size.height + 0.5);
-//    CGContextSetLineWidth(context, 1.0);
-//    CGContextStrokePath(context);
-//    CGContextRestoreGState(context);
-//}
+- (void)drawRect:(CGRect)rect
+{
+    CGContextRef context = UIGraphicsGetCurrentContext();
+
+    if (_cellState == kDayCellStateToday) {
+        [[UIColor colorWithRed:54.0/255.0 green:79.0/255.0 blue:114.0/255.0 alpha:0.8] setFill];
+        CGContextFillRect(context, rect);
+                
+        CGRect inner = CGRectInset(rect, 1, 1);
+        [[UIColor colorWithRed:250.0/255.0 green:250.0/255.0 blue:250.0/255.0 alpha:0.4] setFill];
+        CGContextFillRect(context, inner);        
+    }
+    
+    if (_cellState == kDayCellStateSelected) {
+        CGColorRef strokeColor = [UIColor colorWithRed:41.0/255.0 green:54.0/255.0 blue:73.0/255.0 alpha:1.0].CGColor;
+        CGColorRef topColor = [UIColor colorWithRed:0/255.0 green:114.0/255.0 blue:226.0/255.0 alpha:1.0].CGColor;
+        CGColorRef bottomColor = [UIColor colorWithRed:0/255.0 green:114.0/255.0 blue:226.0/255.0 alpha:1.0].CGColor;
+
+        drawGlossAndGradient(context, rect, topColor, bottomColor);
+        CGContextSetStrokeColorWithColor(context, strokeColor);
+        CGContextStrokeRect(context, rectFor1PxStroke(rect));
+    }
+}
 
 @end

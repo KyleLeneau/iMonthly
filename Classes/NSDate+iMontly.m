@@ -116,7 +116,7 @@
 	return [[calendar components: NSWeekdayCalendarUnit fromDate:self] weekday];
 }
 
-- (NSInteger)lastDayOfMonth
+- (NSInteger)daysInMonth
 {
     NSCalendar * calendar = [NSCalendar currentCalendar];    
     NSRange daysRange = [calendar rangeOfUnit:NSDayCalendarUnit 
@@ -128,7 +128,7 @@
 - (NSInteger)visibleWeeksInMonth
 {
     NSInteger firstDay = [self firstWeekdayOfMonth] - 1;
-    double count = firstDay + [self lastDayOfMonth];
+    double count = firstDay + [self daysInMonth];
     return ceilf(count / 7);
 }
 

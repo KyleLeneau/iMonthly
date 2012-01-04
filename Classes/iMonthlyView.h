@@ -25,4 +25,6 @@
     
 }
 
+@property (nonatomic, strong) NSDate * currentMonth;
+
 @end

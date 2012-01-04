@@ -32,10 +32,14 @@ static const CGFloat kChangeMonthButtonHeight = 30.0f;
     iMonthlyGridView * _backGridView;
 }
 
+@synthesize currentMonth = _currentMonth;
+
+
 - (void)initView
 {
     self.autoresizesSubviews = YES;
-    self.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin;
+    self.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+    self.currentMonth = [NSDate date];
     
     _headerRect = CGRectMake(0, 0, self.frame.size.width, kHeaderHeight);
     _gridRect = CGRectMake(0, kHeaderHeight, self.frame.size.width, self.frame.size.height - kHeaderHeight);
@@ -50,7 +54,7 @@ static const CGFloat kChangeMonthButtonHeight = 30.0f;
     _headerTitleLabel.textAlignment = UITextAlignmentCenter;
     _headerTitleLabel.shadowColor = [UIColor whiteColor];
     _headerTitleLabel.shadowOffset = CGSizeMake(0, 1);
-    _headerTitleLabel.text = @"December 2011"; // TODO with logic
+    _headerTitleLabel.text = [_currentMonth formattedMonthYearString];
     [self addSubview:_headerTitleLabel];
     
     NSArray * weekdayNames = [[[NSDateFormatter alloc] init] shortWeekdaySymbols];
@@ -72,13 +76,14 @@ static const CGFloat kChangeMonthButtonHeight = 30.0f;
     
     // Setup the Grid Views
     _frontGridView = [[iMonthlyGridView alloc] initWithFrame:_gridRect];
+    _frontGridView.currentMonth = _currentMonth;
+    [_frontGridView addObserver:self forKeyPath:@"frame" options:NSKeyValueObservingOptionNew context:NULL];
+    
     _backGridView = [[iMonthlyGridView alloc] initWithFrame:_gridRect];
     
     [self addSubview:_frontGridView];
     
-    
-    NSLog(@"First Weekday of Month: %d", [[[NSDate date] nextMonth] firstWeekdayOfMonth]);
-    NSLog(@"Visible Weeks: %d", [[[NSDate date] monthFromMonthOffset:-3] visibleWeeksInMonth]);
+    NSLog(@"Visible Weeks: %d", [_currentMonth visibleWeeksInMonth]);
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder
@@ -95,6 +100,17 @@ static const CGFloat kChangeMonthButtonHeight = 30.0f;
         [self initView];
     }
     return self;
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if (object == _frontGridView && [keyPath isEqualToString:@"frame"]) {
+        NSLog(@"Recieved a frame change message");
+        
+        CGRect newFrame = self.frame;
+        newFrame.size.height = _headerRect.size.height + _frontGridView.frame.size.height;
+        self.frame = newFrame;
+    }
 }
 
 - (void)drawHeaderView

@@ -13,6 +13,7 @@
 
 @end
 
+CGRect rectByChangingSize(CGRect rect, CGFloat deltaWidth, CGFloat deltaHeight);
 CGRect rectFor1PxStroke(CGRect rect);
 void drawLinearGradient(CGContextRef context, CGRect rect, CGColorRef startColor, CGColorRef endColor);
 void drawGlossAndGradient(CGContextRef context, CGRect rect, CGColorRef startColor, CGColorRef endColor);

@@ -17,11 +17,12 @@
 - (NSDate *)previousMonth;
 - (NSDate *)nextMonth;
 - (NSDate *)monthFromMonthOffset:(int)monthOffset;
+
 - (NSDate *)dateWithDayNumber:(int)dayNumber;
 - (NSDate *)dateWithDayOffset:(int)dayOffset;
 
 - (NSInteger)firstWeekdayOfMonth;
-- (NSInteger)lastDayOfMonth;
+- (NSInteger)daysInMonth;
 - (NSInteger)visibleWeeksInMonth;
 
 - (BOOL)isSameDate:(NSDate *)day;
