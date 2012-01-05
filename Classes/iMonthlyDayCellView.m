@@ -40,9 +40,9 @@ static const CGSize kLabelSize = { 30.f, 22.f };
         self.opaque = NO;
         self.backgroundColor = [UIColor clearColor];
         _font = [UIFont boldSystemFontOfSize:24.f];
-        _darkColor = [UIColor darkTextColor];
+        _darkColor = [UIColor colorWithPatternImage:[iMonthlyCommon sharedInstance].darkTextPatternImage];
         _whiteColor = [UIColor whiteColor];
-        _lightColor = [UIColor lightGrayColor];
+        _lightColor = [UIColor colorWithPatternImage:[iMonthlyCommon sharedInstance].lightTextPatternImage];
         
         CGRect _labelRect = CGRectMake((frame.size.width - kLabelSize.width) / 2, 8, kLabelSize.width, kLabelSize.height);
         _dayNumberLabel = [[UILabel alloc] initWithFrame:_labelRect];

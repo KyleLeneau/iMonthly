@@ -52,7 +52,7 @@ static const CGSize kDayCellSize = { 46.f, 44.f };
 {
     _currentMonth = Nil;
     _currentMonth = [month dateWithDayNumber:1];
-    NSLog(@"%@", _currentMonth);
+    NSLog(@"GridView setting Current Month: %@", _currentMonth);
     
     _today = [NSDate date];
     _visibleWeeks = [_currentMonth visibleWeeksInMonth];
@@ -60,7 +60,7 @@ static const CGSize kDayCellSize = { 46.f, 44.f };
     _daysInMonth = [_currentMonth daysInMonth];
     _lastDayPreviousMonth = [[_currentMonth previousMonth] daysInMonth];
     
-    [self setNeedsDisplay];
+    [self setNeedsLayout];
 }
 
 - (void)layoutSubviews
@@ -99,15 +99,15 @@ static const CGSize kDayCellSize = { 46.f, 44.f };
             [dayCell setDayCellState:kDayCellStateToday];
         }
         
-        if (_selectedDayCell != Nil && _selectedDayCell == dayCell) {
-            [viewsToFront addObject:dayCell];
-            [dayCell setDayCellState:kDayCellStateSelected];
-        }
+//        if (_selectedDayCell != Nil && _selectedDayCell == dayCell) {
+//            [viewsToFront addObject:dayCell];
+//            [dayCell setDayCellState:kDayCellStateSelected];
+//        }
     }
     
-    for (UIView * cell in viewsToFront) {
-        [self bringSubviewToFront:cell];
-    }
+//    for (UIView * cell in viewsToFront) {
+//        [self bringSubviewToFront:cell];
+//    }
 }
 
 - (void)drawRect:(CGRect)rect

@@ -11,6 +11,13 @@
 
 @interface iMonthlyCommon : NSObject
 
+@property (nonatomic, readonly) UIImage * leftArrowImage;
+@property (nonatomic, readonly) UIImage * rightArrowImage;
+@property (nonatomic, readonly) UIImage * darkTextPatternImage;
+@property (nonatomic, readonly) UIImage * lightTextPatternImage;
+
++ (iMonthlyCommon *)sharedInstance;
+
 @end
 
 CGRect rectByChangingSize(CGRect rect, CGFloat deltaWidth, CGFloat deltaHeight);

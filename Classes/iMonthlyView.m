@@ -12,7 +12,7 @@
 
 static const CGFloat kHeaderHeight = 44.f;
 static const CGFloat kMonthLabelWidth = 240.0f;
-static const CGFloat kMonthLabelHeight = 17.f;
+static const CGFloat kMonthLabelHeight = 24.f;
 static const CGFloat kChangeMonthButtonWidth = 46.0f;
 static const CGFloat kChangeMonthButtonHeight = 30.0f;
 
@@ -46,8 +46,9 @@ static const CGFloat kChangeMonthButtonHeight = 30.0f;
     
     _headerTextColor = [UIColor colorWithRed:84.0/255.0 green:84.0/255.0 blue:84.0/255.0 alpha:1.0];
     
+    
     // Setup Header Views
-    _headerTitleLabel = [[UILabel alloc] init];
+    _headerTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, kMonthLabelWidth, kMonthLabelHeight)];
     _headerTitleLabel.backgroundColor = [UIColor clearColor];
     _headerTitleLabel.font = [UIFont boldSystemFontOfSize:22.f];
     _headerTitleLabel.textColor = _headerTextColor;
@@ -74,6 +75,26 @@ static const CGFloat kChangeMonthButtonHeight = 30.0f;
     }
     
     
+    // Setup the Nav Buttons
+    CGRect buttonFrame = CGRectMake(0, 0, kChangeMonthButtonWidth, kChangeMonthButtonHeight);
+    
+    _previousMonthButton = [[UIButton alloc] initWithFrame:buttonFrame];
+    [_previousMonthButton setImage:[iMonthlyCommon sharedInstance].leftArrowImage forState:UIControlStateNormal];
+    [_previousMonthButton.imageView setContentMode:UIViewContentModeCenter];
+    _previousMonthButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
+    _previousMonthButton.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+    [_previousMonthButton addTarget:self action:@selector(showPreviousMonth) forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:_previousMonthButton];
+
+    _nextMonthButton = [[UIButton alloc] initWithFrame:buttonFrame];
+    [_nextMonthButton setImage:[iMonthlyCommon sharedInstance].rightArrowImage forState:UIControlStateNormal];
+    [_nextMonthButton.imageView setContentMode:UIViewContentModeCenter];
+    _nextMonthButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
+    _nextMonthButton.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+    [_nextMonthButton addTarget:self action:@selector(showNextMonth) forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:_nextMonthButton];
+    
+    
     // Setup the Grid Views
     _frontGridView = [[iMonthlyGridView alloc] initWithFrame:_gridRect];
     _frontGridView.currentMonth = _currentMonth;
@@ -83,7 +104,7 @@ static const CGFloat kChangeMonthButtonHeight = 30.0f;
     
     [self addSubview:_frontGridView];
     
-    NSLog(@"Visible Weeks: %d", [_currentMonth visibleWeeksInMonth]);
+//    NSLog(@"Visible Weeks: %d", [_currentMonth visibleWeeksInMonth]);
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder
@@ -105,13 +126,36 @@ static const CGFloat kChangeMonthButtonHeight = 30.0f;
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if (object == _frontGridView && [keyPath isEqualToString:@"frame"]) {
-        NSLog(@"Recieved a frame change message");
+//        NSLog(@"Recieved a frame change message");
         
         CGRect newFrame = self.frame;
         newFrame.size.height = _headerRect.size.height + _frontGridView.frame.size.height;
         self.frame = newFrame;
     }
 }
+
+- (void)setCurrentMonth:(NSDate *)currentMonth
+{
+    _currentMonth = Nil;
+    _currentMonth = currentMonth;
+    
+    _headerTitleLabel.text = [_currentMonth formattedMonthYearString];
+}
+
+- (void)showPreviousMonth
+{
+    self.currentMonth = [_currentMonth monthFromMonthOffset:-1];
+    [_frontGridView setCurrentMonth:_currentMonth];
+}
+
+- (void)showNextMonth
+{
+    self.currentMonth = [_currentMonth monthFromMonthOffset:1];
+    [_frontGridView setCurrentMonth:_currentMonth];    
+}
+
+
+#pragma mark - Drawing and Layout
 
 - (void)drawHeaderView
 {
@@ -144,7 +188,8 @@ static const CGFloat kChangeMonthButtonHeight = 30.0f;
     _previousMonthButton.center = CGPointMake(20, 20);
     _nextMonthButton.center = CGPointMake(300, 20);
     
-    _headerTitleLabel.frame = CGRectMake(40, 9, kMonthLabelWidth, kMonthLabelHeight);
+    _headerTitleLabel.center = CGPointMake(160, 20);
+
 //    _daysGridRect = CGRectMake(0, 70, 320, 300);
     
     [self setNeedsDisplay];
