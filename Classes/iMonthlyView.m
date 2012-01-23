@@ -30,6 +30,8 @@ static const CGFloat kChangeMonthButtonHeight = 30.0f;
     
     iMonthlyGridView * _frontGridView;
     iMonthlyGridView * _backGridView;
+    
+    BOOL _transitioning;
 }
 
 @synthesize currentMonth = _currentMonth;
@@ -37,10 +39,12 @@ static const CGFloat kChangeMonthButtonHeight = 30.0f;
 
 - (void)initView
 {
+    self.clipsToBounds = YES;
     self.autoresizesSubviews = YES;
-    self.autoresizingMask = UIViewAutoresizingFlexibleHeight;
     self.currentMonth = [NSDate date];
+    self.backgroundColor = [UIColor redColor];
     
+    _transitioning = NO;
     _headerRect = CGRectMake(0, 0, self.frame.size.width, kHeaderHeight);
     _gridRect = CGRectMake(0, kHeaderHeight, self.frame.size.width, self.frame.size.height - kHeaderHeight);
     
@@ -96,15 +100,20 @@ static const CGFloat kChangeMonthButtonHeight = 30.0f;
     
     
     // Setup the Grid Views
+    _backGridView = [[iMonthlyGridView alloc] initWithFrame:_gridRect];
+    _backGridView.hidden = YES;
     _frontGridView = [[iMonthlyGridView alloc] initWithFrame:_gridRect];
     _frontGridView.currentMonth = _currentMonth;
-    [_frontGridView addObserver:self forKeyPath:@"frame" options:NSKeyValueObservingOptionNew context:NULL];
-    
-    _backGridView = [[iMonthlyGridView alloc] initWithFrame:_gridRect];
     
     [self addSubview:_frontGridView];
+    [self addSubview:_backGridView];
     
-//    NSLog(@"Visible Weeks: %d", [_currentMonth visibleWeeksInMonth]);
+    
+    // Setup this view frame size
+    CGRect newFrame = self.frame;
+    newFrame.size.height = kHeaderHeight + _frontGridView.frame.size.height;
+    newFrame.size.width = _frontGridView.frame.size.width;
+    self.frame = newFrame;
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder
@@ -123,17 +132,6 @@ static const CGFloat kChangeMonthButtonHeight = 30.0f;
     return self;
 }
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-    if (object == _frontGridView && [keyPath isEqualToString:@"frame"]) {
-//        NSLog(@"Recieved a frame change message");
-        
-        CGRect newFrame = self.frame;
-        newFrame.size.height = _headerRect.size.height + _frontGridView.frame.size.height;
-        self.frame = newFrame;
-    }
-}
-
 - (void)setCurrentMonth:(NSDate *)currentMonth
 {
     _currentMonth = Nil;
@@ -142,16 +140,48 @@ static const CGFloat kChangeMonthButtonHeight = 30.0f;
     _headerTitleLabel.text = [_currentMonth formattedMonthYearString];
 }
 
+- (void)swapGridViews
+{
+    iMonthlyGridView *tmp = _backGridView;
+    _backGridView = _frontGridView;
+    _frontGridView = tmp;
+    [self exchangeSubviewAtIndex:[self.subviews indexOfObject:_frontGridView] 
+              withSubviewAtIndex:[self.subviews indexOfObject:_backGridView]];    
+}
+
 - (void)showPreviousMonth
 {
     self.currentMonth = [_currentMonth monthFromMonthOffset:-1];
-    [_frontGridView setCurrentMonth:_currentMonth];
+    [_backGridView setCurrentMonth:_currentMonth];
 }
 
 - (void)showNextMonth
 {
     self.currentMonth = [_currentMonth monthFromMonthOffset:1];
-    [_frontGridView setCurrentMonth:_currentMonth];    
+    [_backGridView setCurrentMonth:_currentMonth];
+    
+    // Slide grid view up
+    _backGridView.hidden = NO;
+    _transitioning = YES;
+    
+    // Setup the back grid top to be the bottom of the front
+    _backGridView.top = _frontGridView.bottom;
+    
+    // Begin the animation
+    [UIView animateWithDuration:0.5 
+                     animations:^{
+                         _frontGridView.top = -_backGridView.height + kHeaderHeight;
+                         _backGridView.top = 0.0f + kHeaderHeight;
+                         
+                         _frontGridView.alpha = 0.0f;
+                         _backGridView.alpha = 1.0f;
+                         
+                         [self swapGridViews];
+                     }
+                     completion:^(BOOL finished){
+                         _transitioning = NO;
+                         _backGridView.hidden = YES;
+                     }];
 }
 
 
@@ -163,7 +193,7 @@ static const CGFloat kChangeMonthButtonHeight = 30.0f;
     CGColorRef topColor = [UIColor colorWithRed:246.0/255.0 green:246.0/255.0 blue:247.0/255.0 alpha:1.0].CGColor; 
     CGColorRef bottomColor = [UIColor colorWithRed:204.0/255.0 green:204.0/255.0 blue:209.0/255.0 alpha:1.0].CGColor;
     
-    drawLinearGradient(context, _headerRect, topColor, bottomColor);    
+    drawLinearGradient(context, _headerRect, topColor, bottomColor);
 }
 
 - (void)drawGridView
@@ -175,22 +205,25 @@ static const CGFloat kChangeMonthButtonHeight = 30.0f;
     drawLinearGradient(context, _gridRect, topColor, bottomColor);
 }
 
+- (void)drawBottomShadowView
+{
+//    CGContextRef context = UIGraphicsGetCurrentContext();
+}
+
 - (void)drawRect:(CGRect)rect
 {
     [self drawHeaderView];
     [self drawGridView];
+    [self drawBottomShadowView];
 }
 
 - (void)layoutSubviews
-{
-    [super layoutSubviews];
-    
+{    
     _previousMonthButton.center = CGPointMake(20, 20);
     _nextMonthButton.center = CGPointMake(300, 20);
     
     _headerTitleLabel.center = CGPointMake(160, 20);
-
-//    _daysGridRect = CGRectMake(0, 70, 320, 300);
+    _gridRect = _frontGridView.frame;
     
     [self setNeedsDisplay];
 }

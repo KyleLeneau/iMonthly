@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "NSDate+iMontly.h"
+#import "UIView+iMonthly.h"
 
 @interface iMonthlyCommon : NSObject
 

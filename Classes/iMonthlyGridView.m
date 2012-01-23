@@ -26,23 +26,33 @@ static const CGSize kDayCellSize = { 46.f, 44.f };
 @synthesize currentMonth = _currentMonth;
 
 
+- (void)initView
+{
+    self.opaque = NO;
+    self.clipsToBounds = YES;
+    _today = [NSDate date];
+    _visibleWeeks = 6;
+    
+    CGRect newRect = self.frame;
+    newRect.size.height = _visibleWeeks * kDayCellSize.height;
+    newRect.size.width = 7 * kDayCellSize.width;
+    self.frame = newRect;    
+    
+    NSInteger temp = 0;
+    for (int i=0; i<6; i++) {
+        for (int j=0; j<7; j++) {
+            CGRect r = CGRectMake(j*kDayCellSize.width, i*kDayCellSize.height, kDayCellSize.width, kDayCellSize.height);
+            [self insertSubview:[[iMonthlyDayCellView alloc] initWithFrame:r] atIndex:temp];
+            temp++;
+        }
+    }    
+}
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) 
     {
-        self.opaque = NO;
-        self.clipsToBounds = YES;
-        _today = [NSDate date];
-        
-        NSInteger temp = 0;
-        for (int i=0; i<6; i++) {
-            for (int j=0; j<7; j++) {
-                CGRect r = CGRectMake(j*kDayCellSize.width, i*kDayCellSize.height, kDayCellSize.width, kDayCellSize.height);
-                [self insertSubview:[[iMonthlyDayCellView alloc] initWithFrame:r] atIndex:temp];
-                temp++;
-            }
-        }
+        [self initView];
     }
     return self;
 }
@@ -54,8 +64,6 @@ static const CGSize kDayCellSize = { 46.f, 44.f };
     NSLog(@"GridView setting Current Month: %@", _currentMonth);
     
     _today = [NSDate date];
-//    _visibleWeeks = [_currentMonth visibleWeeksInMonth];
-    _visibleWeeks = 6;
     _firstWeekdayInMonth = [_currentMonth firstWeekdayOfMonth];
     _daysInMonth = [_currentMonth daysInMonth];
     _lastDayPreviousMonth = [[_currentMonth previousMonth] daysInMonth];
@@ -76,6 +84,7 @@ static const CGSize kDayCellSize = { 46.f, 44.f };
     if ([hitView isKindOfClass:[iMonthlyDayCellView class]]) {
         iMonthlyDayCellView * cell = (iMonthlyDayCellView *)hitView;
         _selectedDayCell = cell;
+        // TODO: Call some delegate being passed around...
         [self setNeedsLayout];
     }
 }
@@ -85,14 +94,6 @@ static const CGSize kDayCellSize = { 46.f, 44.f };
     if (_currentMonth == Nil) {
         return;
     }
-    
-    // Only adjust the Grid frame if it needs it
-    CGRect newRect = self.frame;
-    newRect.size.height = _visibleWeeks * kDayCellSize.height;
-    if (newRect.size.height != self.frame.size.height) {
-        self.frame = newRect;
-    }
-    
     
     NSInteger totalCells = _visibleWeeks * 7;
     iMonthlyDayCellView * dayCell = Nil;
