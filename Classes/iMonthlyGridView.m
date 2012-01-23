@@ -33,7 +33,6 @@ static const CGSize kDayCellSize = { 46.f, 44.f };
     {
         self.opaque = NO;
         self.clipsToBounds = YES;
-        self.backgroundColor = [UIColor clearColor];
         _today = [NSDate date];
         
         NSInteger temp = 0;
@@ -55,12 +54,30 @@ static const CGSize kDayCellSize = { 46.f, 44.f };
     NSLog(@"GridView setting Current Month: %@", _currentMonth);
     
     _today = [NSDate date];
-    _visibleWeeks = [_currentMonth visibleWeeksInMonth];
+//    _visibleWeeks = [_currentMonth visibleWeeksInMonth];
+    _visibleWeeks = 6;
     _firstWeekdayInMonth = [_currentMonth firstWeekdayOfMonth];
     _daysInMonth = [_currentMonth daysInMonth];
     _lastDayPreviousMonth = [[_currentMonth previousMonth] daysInMonth];
     
     [self setNeedsLayout];
+    [self setNeedsDisplay];
+}
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    UITouch * touch = [touches anyObject];
+    CGPoint location = [touch locationInView:self];
+    UIView * hitView = [self hitTest:location withEvent:event];
+    
+    if (!hitView)
+        return;
+    
+    if ([hitView isKindOfClass:[iMonthlyDayCellView class]]) {
+        iMonthlyDayCellView * cell = (iMonthlyDayCellView *)hitView;
+        _selectedDayCell = cell;
+        [self setNeedsLayout];
+    }
 }
 
 - (void)layoutSubviews
@@ -71,7 +88,7 @@ static const CGSize kDayCellSize = { 46.f, 44.f };
     
     // Only adjust the Grid frame if it needs it
     CGRect newRect = self.frame;
-    newRect.size.height = [_currentMonth visibleWeeksInMonth] * kDayCellSize.height;
+    newRect.size.height = _visibleWeeks * kDayCellSize.height;
     if (newRect.size.height != self.frame.size.height) {
         self.frame = newRect;
     }
@@ -79,7 +96,6 @@ static const CGSize kDayCellSize = { 46.f, 44.f };
     
     NSInteger totalCells = _visibleWeeks * 7;
     iMonthlyDayCellView * dayCell = Nil;
-    NSMutableArray * viewsToFront = [NSMutableArray array];
     
     for (int x = 0; x < totalCells; x++) {
         dayCell = (iMonthlyDayCellView *)[self.subviews objectAtIndex:x];
@@ -95,19 +111,13 @@ static const CGSize kDayCellSize = { 46.f, 44.f };
         }
         
         if (_currentMonth && [thisDate isSameDate:_today]) {
-            [viewsToFront addObject:dayCell];
             [dayCell setDayCellState:kDayCellStateToday];
         }
         
-//        if (_selectedDayCell != Nil && _selectedDayCell == dayCell) {
-//            [viewsToFront addObject:dayCell];
-//            [dayCell setDayCellState:kDayCellStateSelected];
-//        }
+        if (_selectedDayCell != Nil && _selectedDayCell == dayCell) {
+            [dayCell setDayCellState:kDayCellStateSelected];
+        }
     }
-    
-//    for (UIView * cell in viewsToFront) {
-//        [self bringSubviewToFront:cell];
-//    }
 }
 
 - (void)drawRect:(CGRect)rect
@@ -120,7 +130,7 @@ static const CGSize kDayCellSize = { 46.f, 44.f };
     gridPath.lineWidth = 1.0;
     
     // Add Horizontal ones first
-    for (int i = 0; i < 6; i++) {  // TODO: replace with number of weeks
+    for (int i = 0; i < 7; i++) {  // TODO: replace with number of weeks
         CGFloat y = i * kDayCellSize.height + 0.5;
         [gridPath moveToPoint:CGPointMake(0, y)];
         [gridPath addLineToPoint:CGPointMake(rect.size.width + 2, y)];

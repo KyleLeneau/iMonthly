@@ -30,7 +30,7 @@
 - (void)loadView
 {
     self.view = [[UIView alloc] init];
-    self.calendar = [[iMonthlyView alloc] initWithFrame:CGRectMake(0, 0, 320, 400)];
+    self.calendar = [[iMonthlyView alloc] initWithFrame:CGRectMake(0, 0, 320, 500)];
     [self.view addSubview:self.calendar];
 }
 

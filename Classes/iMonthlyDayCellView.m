@@ -22,12 +22,11 @@ static const CGSize kLabelSize = { 30.f, 22.f };
 {
     kDayCellState _cellState;
     
+    CGRect _originalFrame;
     UIFont * _font;
-    UIColor * _darkColor;
-    UIColor * _whiteColor;
-    UIColor * _lightColor;
-    
-    UILabel * _dayNumberLabel;
+    UIColor * _textColor;
+    UIColor * _shadowColor;
+    CGSize _shadowOffset;
 }
 
 @synthesize date = _date;
@@ -37,21 +36,11 @@ static const CGSize kLabelSize = { 30.f, 22.f };
 {
     self = [super initWithFrame:frame];
     if (self) {
+        _originalFrame = frame;
         self.opaque = NO;
         self.backgroundColor = [UIColor clearColor];
         _font = [UIFont boldSystemFontOfSize:24.f];
-        _darkColor = [UIColor colorWithPatternImage:[iMonthlyCommon sharedInstance].darkTextPatternImage];
-        _whiteColor = [UIColor whiteColor];
-        _lightColor = [UIColor colorWithPatternImage:[iMonthlyCommon sharedInstance].lightTextPatternImage];
-        
-        CGRect _labelRect = CGRectMake((frame.size.width - kLabelSize.width) / 2, 8, kLabelSize.width, kLabelSize.height);
-        _dayNumberLabel = [[UILabel alloc] initWithFrame:_labelRect];
-        _dayNumberLabel.backgroundColor = [UIColor clearColor];
-        _dayNumberLabel.textAlignment = UITextAlignmentCenter;
-        _dayNumberLabel.font = _font;
-        _dayNumberLabel.text = [NSString stringWithFormat:@"%u", [_date dayNumber]];
         [self setDayCellState:kDayCellStateUnKnown];
-        [self addSubview:_dayNumberLabel];
     }
     return self;
 }
@@ -61,7 +50,7 @@ static const CGSize kLabelSize = { 30.f, 22.f };
     _date = Nil;
     _date = date;
     
-    _dayNumberLabel.text = [NSString stringWithFormat:@"%u", [_date dayNumber]];
+    [self setNeedsDisplay];
 }
 
 - (void)setDayCellState:(kDayCellState)state
@@ -70,33 +59,35 @@ static const CGSize kLabelSize = { 30.f, 22.f };
     
     switch (_cellState) {
         case kDayCellStateOutOfMonth:
-            _dayNumberLabel.textColor = _lightColor;
-            _dayNumberLabel.shadowColor = _whiteColor;
-            _dayNumberLabel.shadowOffset = CGSizeMake(0, 1);
+            _textColor = [UIColor colorWithPatternImage:[iMonthlyCommon sharedInstance].lightTextPatternImage];
+            _shadowColor = [UIColor whiteColor];
+            _shadowOffset = CGSizeMake(0, 1);
             break;
         case kDayCellStateToday:
-            _dayNumberLabel.textColor = _whiteColor;
-            _dayNumberLabel.shadowColor = _darkColor;
-            _dayNumberLabel.shadowOffset = CGSizeMake(0, 1);
+            _textColor = [UIColor whiteColor];
+            _shadowColor = [UIColor colorWithPatternImage:[iMonthlyCommon sharedInstance].darkTextPatternImage];
+            _shadowOffset = CGSizeMake(0, 1);
             
-            CGRect todayRect = rectByChangingSize(self.frame, 1, 1);
+            CGRect todayRect = rectByChangingSize(_originalFrame, 1, 1);
             self.frame = todayRect;
             break;
         case kDayCellStateSelected:
-            _dayNumberLabel.textColor = _whiteColor;
-            _dayNumberLabel.shadowColor = _darkColor;
-            _dayNumberLabel.shadowOffset = CGSizeMake(0, -1);
+            _textColor = [UIColor whiteColor];
+            _shadowColor = [UIColor colorWithPatternImage:[iMonthlyCommon sharedInstance].darkTextPatternImage];
+            _shadowOffset = CGSizeMake(0, -1);
             
-            CGRect selectedRect = rectByChangingSize(self.frame, 1, 1);
+            CGRect selectedRect = rectByChangingSize(_originalFrame, 1, 1);
             self.frame = selectedRect;
             break;
         case kDayCellStateInMonth:
         default:
-            _dayNumberLabel.textColor = _darkColor;
-            _dayNumberLabel.shadowColor = _whiteColor;
-            _dayNumberLabel.shadowOffset = CGSizeMake(0, 1);
+            _textColor = [UIColor colorWithPatternImage:[iMonthlyCommon sharedInstance].darkTextPatternImage];
+            _shadowColor = [UIColor whiteColor];
+            _shadowOffset = CGSizeMake(0, 1);
             break;
     }
+    
+    [self setNeedsDisplay];
 }
 
 - (void)drawRect:(CGRect)rect
@@ -121,6 +112,15 @@ static const CGSize kLabelSize = { 30.f, 22.f };
         CGContextSetStrokeColorWithColor(context, strokeColor);
         CGContextStrokeRect(context, rectFor1PxStroke(rect));
     }
+    
+    CGRect _labelRect = CGRectMake((rect.size.width - kLabelSize.width) / 2, 4, kLabelSize.width, kLabelSize.height);
+    CGContextSetFillColorWithColor(context, _textColor.CGColor);
+    CGContextSetShadowWithColor(context, _shadowOffset, 1, _shadowColor.CGColor);
+    [[NSString stringWithFormat:@"%u", [_date dayNumber]] 
+     drawInRect:_labelRect 
+     withFont:_font 
+     lineBreakMode:UILineBreakModeClip 
+     alignment:UITextAlignmentCenter];
 }
 
 @end

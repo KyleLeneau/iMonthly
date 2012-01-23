@@ -181,7 +181,7 @@ static const CGFloat kChangeMonthButtonHeight = 30.0f;
     [self drawGridView];
 }
 
-- (void) layoutSubviews
+- (void)layoutSubviews
 {
     [super layoutSubviews];
     
