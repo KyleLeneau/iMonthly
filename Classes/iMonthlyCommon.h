@@ -14,6 +14,7 @@
 
 @property (nonatomic, readonly) UIImage * leftArrowImage;
 @property (nonatomic, readonly) UIImage * rightArrowImage;
+@property (nonatomic, readonly) UIImage * headerPatternImage;
 @property (nonatomic, readonly) UIImage * darkTextPatternImage;
 @property (nonatomic, readonly) UIImage * lightTextPatternImage;
 

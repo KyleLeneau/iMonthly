@@ -18,6 +18,7 @@ static const CGRect kArrowRect = { 0, 0, 15, 20 };
     
     UIImage * _leftArrowImage;
     UIImage * _rightArrowImage;
+    UIImage * _headerPatternImage;
     UIImage * _darkTextPatternImage;
     UIImage * _lightTextPatternImage;
 }
@@ -139,6 +140,26 @@ static iMonthlyCommon * _sharedInstance;
     }
     
     return _rightArrowImage;
+}
+
+- (UIImage *)headerPatternImage
+{
+    if (!_headerPatternImage) {
+        // Create the Gradient Pattern for the background
+        CGRect patternRect = CGRectMake(0, 0, 8, 46);
+        UIGraphicsBeginImageContextWithOptions(patternRect.size, NO, 1.0);
+        CGContextRef context = UIGraphicsGetCurrentContext();
+        
+        CGColorRef topColor = [UIColor colorWithRed:246.0/255.0 green:246.0/255.0 blue:247.0/255.0 alpha:1.0].CGColor; 
+        CGColorRef bottomColor = [UIColor colorWithRed:204.0/255.0 green:204.0/255.0 blue:209.0/255.0 alpha:1.0].CGColor;
+        
+        drawLinearGradient(context, patternRect, topColor, bottomColor);
+        
+        _headerPatternImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+    }
+    
+    return _headerPatternImage;
 }
 
 - (UIImage *)darkTextPatternImage

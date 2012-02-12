@@ -24,6 +24,7 @@ static const CGFloat kChangeMonthButtonHeight = 30.0f;
     
     UIColor * _headerTextColor;
     
+    UIView * _headerView;
     UILabel * _headerTitleLabel;
     UIButton * _nextMonthButton;
     UIButton * _previousMonthButton;
@@ -52,6 +53,9 @@ static const CGFloat kChangeMonthButtonHeight = 30.0f;
     
     
     // Setup Header Views
+    _headerView = [[UIView alloc] initWithFrame:_headerRect];
+    _headerView.backgroundColor = [UIColor colorWithPatternImage:[[iMonthlyCommon sharedInstance] headerPatternImage]];
+
     _headerTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, kMonthLabelWidth, kMonthLabelHeight)];
     _headerTitleLabel.backgroundColor = [UIColor clearColor];
     _headerTitleLabel.font = [UIFont boldSystemFontOfSize:22.f];
@@ -60,7 +64,7 @@ static const CGFloat kChangeMonthButtonHeight = 30.0f;
     _headerTitleLabel.shadowColor = [UIColor whiteColor];
     _headerTitleLabel.shadowOffset = CGSizeMake(0, 1);
     _headerTitleLabel.text = [_currentMonth formattedMonthYearString];
-    [self addSubview:_headerTitleLabel];
+    [_headerView addSubview:_headerTitleLabel];
     
     NSArray * weekdayNames = [[[NSDateFormatter alloc] init] shortWeekdaySymbols];
     NSUInteger firstWeekday = [[NSCalendar currentCalendar] firstWeekday];
@@ -75,7 +79,7 @@ static const CGFloat kChangeMonthButtonHeight = 30.0f;
         weekdayLabel.shadowColor = [UIColor whiteColor];
         weekdayLabel.shadowOffset = CGSizeMake(0, 1);
         weekdayLabel.text = [weekdayNames objectAtIndex:i];
-        [self addSubview:weekdayLabel];
+        [_headerView addSubview:weekdayLabel];
     }
     
     
@@ -88,7 +92,7 @@ static const CGFloat kChangeMonthButtonHeight = 30.0f;
     _previousMonthButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
     _previousMonthButton.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     [_previousMonthButton addTarget:self action:@selector(showPreviousMonth) forControlEvents:UIControlEventTouchUpInside];
-    [self addSubview:_previousMonthButton];
+    [_headerView addSubview:_previousMonthButton];
 
     _nextMonthButton = [[UIButton alloc] initWithFrame:buttonFrame];
     [_nextMonthButton setImage:[iMonthlyCommon sharedInstance].rightArrowImage forState:UIControlStateNormal];
@@ -96,7 +100,7 @@ static const CGFloat kChangeMonthButtonHeight = 30.0f;
     _nextMonthButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
     _nextMonthButton.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     [_nextMonthButton addTarget:self action:@selector(showNextMonth) forControlEvents:UIControlEventTouchUpInside];
-    [self addSubview:_nextMonthButton];
+    [_headerView addSubview:_nextMonthButton];
     
     
     // Setup the Grid Views
@@ -107,6 +111,7 @@ static const CGFloat kChangeMonthButtonHeight = 30.0f;
     
     [self addSubview:_frontGridView];
     [self addSubview:_backGridView];
+    [self addSubview:_headerView];
     
     
     // Setup this view frame size
@@ -168,7 +173,9 @@ static const CGFloat kChangeMonthButtonHeight = 30.0f;
     _backGridView.top = _frontGridView.bottom;
     
     // Begin the animation
-    [UIView animateWithDuration:0.5 
+    [UIView animateWithDuration:0.5
+                          delay:0.2f 
+                        options:UIViewAnimationCurveEaseOut
                      animations:^{
                          _frontGridView.top = -_backGridView.height + kHeaderHeight;
                          _backGridView.top = 0.0f + kHeaderHeight;
@@ -212,7 +219,7 @@ static const CGFloat kChangeMonthButtonHeight = 30.0f;
 
 - (void)drawRect:(CGRect)rect
 {
-    [self drawHeaderView];
+    [self drawHeaderView]; // Obsolete, replaced by a UIView and Pattern Image for effect
     [self drawGridView];
     [self drawBottomShadowView];
 }
