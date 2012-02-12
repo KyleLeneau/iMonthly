@@ -16,6 +16,10 @@ static const CGFloat kMonthLabelHeight = 24.f;
 static const CGFloat kChangeMonthButtonWidth = 46.0f;
 static const CGFloat kChangeMonthButtonHeight = 30.0f;
 
+typedef enum {
+    kRollUp,
+    kRollDown
+} MonthAnimation;
 
 @implementation iMonthlyView
 {
@@ -154,30 +158,36 @@ static const CGFloat kChangeMonthButtonHeight = 30.0f;
               withSubviewAtIndex:[self.subviews indexOfObject:_backGridView]];    
 }
 
-- (void)showPreviousMonth
+- (void)transitionMonthView:(MonthAnimation)animType
 {
-    self.currentMonth = [_currentMonth monthFromMonthOffset:-1];
-    [_backGridView setCurrentMonth:_currentMonth];
-}
-
-- (void)showNextMonth
-{
-    self.currentMonth = [_currentMonth monthFromMonthOffset:1];
-    [_backGridView setCurrentMonth:_currentMonth];
-    
     // Slide grid view up
     _backGridView.hidden = NO;
     _transitioning = YES;
     
     // Setup the back grid top to be the bottom of the front
-    _backGridView.top = _frontGridView.bottom;
+    switch (animType) {
+        case kRollUp:
+            _backGridView.top = _frontGridView.bottom;
+            break;
+        case kRollDown:
+            _backGridView.bottom = _frontGridView.top;
+            break;
+    }
     
     // Begin the animation
-    [UIView animateWithDuration:0.5
-                          delay:0.2f 
+    [UIView animateWithDuration:0.7
+                          delay:0 
                         options:UIViewAnimationCurveEaseOut
                      animations:^{
-                         _frontGridView.top = -_backGridView.height + kHeaderHeight;
+                         switch (animType) {
+                             case kRollUp:
+                                 _frontGridView.top = -_backGridView.height + kHeaderHeight;
+                                 break;
+                             case kRollDown:
+                                 _frontGridView.top = _backGridView.height + kHeaderHeight;
+                                 break;
+                         }
+                         
                          _backGridView.top = 0.0f + kHeaderHeight;
                          
                          _frontGridView.alpha = 0.0f;
@@ -189,6 +199,20 @@ static const CGFloat kChangeMonthButtonHeight = 30.0f;
                          _transitioning = NO;
                          _backGridView.hidden = YES;
                      }];
+}
+
+- (void)showPreviousMonth
+{
+    self.currentMonth = [_currentMonth monthFromMonthOffset:-1];
+    [_backGridView setCurrentMonth:_currentMonth];
+    [self transitionMonthView:kRollDown];
+}
+
+- (void)showNextMonth
+{
+    self.currentMonth = [_currentMonth monthFromMonthOffset:1];
+    [_backGridView setCurrentMonth:_currentMonth];
+    [self transitionMonthView:kRollUp];
 }
 
 
