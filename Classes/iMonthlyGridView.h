@@ -10,6 +10,6 @@
 
 @interface iMonthlyGridView : UIView
 
-@property (nonatomic, strong) NSDate * currentMonth;
+@property (nonatomic, strong) NSDate *currentMonth;
 
 @end

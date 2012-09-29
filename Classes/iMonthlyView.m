@@ -10,16 +10,22 @@
 #import "iMonthlyView.h"
 #import "iMonthlyGridView.h"
 
+typedef enum {
+    kRollUp,
+    kRollDown
+} MonthAnimation;
+
+@interface iMonthlyView ()
+
+- (void)initView;
+
+@end
+
 static const CGFloat kHeaderHeight = 44.f;
 static const CGFloat kMonthLabelWidth = 240.0f;
 static const CGFloat kMonthLabelHeight = 24.f;
 static const CGFloat kChangeMonthButtonWidth = 46.0f;
 static const CGFloat kChangeMonthButtonHeight = 30.0f;
-
-typedef enum {
-    kRollUp,
-    kRollDown
-} MonthAnimation;
 
 @implementation iMonthlyView
 {
@@ -177,7 +183,7 @@ typedef enum {
     // Begin the animation
     [UIView animateWithDuration:0.7
                           delay:0 
-                        options:UIViewAnimationCurveEaseOut
+                        options:UIViewAnimationCurveLinear
                      animations:^{
                          switch (animType) {
                              case kRollUp:
@@ -189,10 +195,6 @@ typedef enum {
                          }
                          
                          _backGridView.top = 0.0f + kHeaderHeight;
-                         
-                         _frontGridView.alpha = 0.0f;
-                         _backGridView.alpha = 1.0f;
-                         
                          [self swapGridViews];
                      }
                      completion:^(BOOL finished){
@@ -218,38 +220,8 @@ typedef enum {
 
 #pragma mark - Drawing and Layout
 
-- (void)drawHeaderView
-{
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    CGColorRef topColor = [UIColor colorWithRed:246.0/255.0 green:246.0/255.0 blue:247.0/255.0 alpha:1.0].CGColor; 
-    CGColorRef bottomColor = [UIColor colorWithRed:204.0/255.0 green:204.0/255.0 blue:209.0/255.0 alpha:1.0].CGColor;
-    
-    drawLinearGradient(context, _headerRect, topColor, bottomColor);
-}
-
-- (void)drawGridView
-{
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    CGColorRef topColor = [UIColor colorWithRed:226.0/255.0 green:226.0/255.0 blue:228.0/255.0 alpha:1.0].CGColor; 
-    CGColorRef bottomColor = [UIColor colorWithRed:204.0/255.0 green:203.0/255.0 blue:208.0/255.0 alpha:1.0].CGColor;
-    
-    drawLinearGradient(context, _gridRect, topColor, bottomColor);
-}
-
-- (void)drawBottomShadowView
-{
-//    CGContextRef context = UIGraphicsGetCurrentContext();
-}
-
-- (void)drawRect:(CGRect)rect
-{
-    [self drawHeaderView]; // Obsolete, replaced by a UIView and Pattern Image for effect
-    [self drawGridView];
-    [self drawBottomShadowView];
-}
-
 - (void)layoutSubviews
-{    
+{
     _previousMonthButton.center = CGPointMake(20, 20);
     _nextMonthButton.center = CGPointMake(300, 20);
     
@@ -257,6 +229,42 @@ typedef enum {
     _gridRect = _frontGridView.frame;
     
     [self setNeedsDisplay];
+}
+
+- (void)drawHeaderView
+{
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    UIColor *topColor = RGB(246, 246, 247);
+    UIColor *bottomColor = RGB(204, 204, 209);
+    drawLinearGradient(context, _headerRect, topColor.CGColor, bottomColor.CGColor);
+}
+
+- (void)drawGridView
+{
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    UIColor *topColor = RGB(226, 226, 228);
+    UIColor *bottomColor = RGB(204, 203, 208);
+    drawLinearGradient(context, _gridRect, topColor.CGColor, bottomColor.CGColor);
+}
+
+- (void)drawBottomShadowView
+{
+    CGContextRef context = UIGraphicsGetCurrentContext();
+
+    UIColor *topColor = RGB(246, 246, 247);
+    UIColor *bottomColor = RGB(204, 204, 209);
+    CGRect shadowRect = CGRectMake(CGRectGetMinX(_gridRect), CGRectGetMaxY(_gridRect), _gridRect.size.width, _gridRect.size.height);
+    
+    drawLinearGradient(context, shadowRect, topColor.CGColor, bottomColor.CGColor);
+}
+
+- (void)drawRect:(CGRect)rect
+{
+    [self drawHeaderView]; // Obsolete, replaced by a UIView and Pattern Image for effect
+    [self drawGridView];
+//    [self drawBottomShadowView];
 }
 
 @end

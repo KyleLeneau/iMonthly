@@ -10,43 +10,31 @@
 #import "iMonthlyDayCellView.h"
 #import "iMonthlyCommon.h"
 
+@interface iMonthlyGridView ()
+
+@property (nonatomic, strong) NSDate *todaysDate;
+@property (nonatomic, assign) NSInteger firstWeekdayInMonth;
+@property (nonatomic, assign) NSInteger daysInMonth;
+@property (nonatomic, assign) NSInteger lastDayInPreviousMonth;
+@property (nonatomic, strong) iMonthlyDayCellView *selectedDayCell;
+
+- (void)initView;
+
+@end
+
+static const NSInteger kVisibleWeeks = 6;
 static const CGSize kDayCellSize = { 46.f, 44.f };
 
 @implementation iMonthlyGridView
-{
-    NSDate * _today;
-    NSInteger _visibleWeeks;
-    NSInteger _firstWeekdayInMonth;
-    NSInteger _daysInMonth;
-    NSInteger _lastDayPreviousMonth;
-    
-    iMonthlyDayCellView * _selectedDayCell;
-}
 
 @synthesize currentMonth = _currentMonth;
+@synthesize todaysDate = _todaysDate;
+@synthesize firstWeekdayInMonth = _firstWeekdayInMonth;
+@synthesize daysInMonth = _daysInMonth;
+@synthesize lastDayInPreviousMonth = _lastDayInPreviousMonth;
+@synthesize selectedDayCell = _selectedDayCell;
 
 
-- (void)initView
-{
-    self.opaque = NO;
-    self.clipsToBounds = YES;
-    _today = [NSDate date];
-    _visibleWeeks = 6;
-    
-    CGRect newRect = self.frame;
-    newRect.size.height = _visibleWeeks * kDayCellSize.height;
-    newRect.size.width = 7 * kDayCellSize.width;
-    self.frame = newRect;    
-    
-    NSInteger temp = 0;
-    for (int i=0; i<6; i++) {
-        for (int j=0; j<7; j++) {
-            CGRect r = CGRectMake(j*kDayCellSize.width, i*kDayCellSize.height, kDayCellSize.width, kDayCellSize.height);
-            [self insertSubview:[[iMonthlyDayCellView alloc] initWithFrame:r] atIndex:temp];
-            temp++;
-        }
-    }    
-}
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -57,16 +45,34 @@ static const CGSize kDayCellSize = { 46.f, 44.f };
     return self;
 }
 
+- (void)initView
+{
+    [self setOpaque:NO];
+    [self setClipsToBounds:YES];
+    [self setTodaysDate:[NSDate date]];
+    
+    CGRect newRect = [self frame];
+    newRect.size.height = kVisibleWeeks * kDayCellSize.height;
+    newRect.size.width = 7 * kDayCellSize.width;
+    [self setFrame:newRect];
+    
+    for (int i = 0; i < 6; i++) {
+        for (int j = 0; j < 7; j++) {
+            CGRect dayCellRect = CGRectMake(j*kDayCellSize.width, i*kDayCellSize.height, kDayCellSize.width, kDayCellSize.height);
+            iMonthlyDayCellView *dayCell = [[iMonthlyDayCellView alloc] initWithFrame:dayCellRect];
+            [self addSubview:dayCell];
+        }
+    }
+}
+
 - (void)setCurrentMonth:(NSDate *)month
 {
     _currentMonth = Nil;
     _currentMonth = [month dateWithDayNumber:1];
-    NSLog(@"GridView setting Current Month: %@", _currentMonth);
     
-    _today = [NSDate date];
-    _firstWeekdayInMonth = [_currentMonth firstWeekdayOfMonth];
-    _daysInMonth = [_currentMonth daysInMonth];
-    _lastDayPreviousMonth = [[_currentMonth previousMonth] daysInMonth];
+    [self setFirstWeekdayInMonth:[_currentMonth firstWeekdayOfMonth]];
+    [self setDaysInMonth:[_currentMonth daysInMonth]];
+    [self setLastDayInPreviousMonth:[[_currentMonth previousMonth] daysInMonth]];
     
     [self setNeedsLayout];
     [self setNeedsDisplay];
@@ -74,16 +80,17 @@ static const CGSize kDayCellSize = { 46.f, 44.f };
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    UITouch * touch = [touches anyObject];
+    UITouch *touch = [touches anyObject];
     CGPoint location = [touch locationInView:self];
-    UIView * hitView = [self hitTest:location withEvent:event];
+    UIView *hitView = [self hitTest:location withEvent:event];
     
     if (!hitView)
         return;
     
     if ([hitView isKindOfClass:[iMonthlyDayCellView class]]) {
-        iMonthlyDayCellView * cell = (iMonthlyDayCellView *)hitView;
-        _selectedDayCell = cell;
+        iMonthlyDayCellView *cell = (iMonthlyDayCellView *)hitView;
+        [self setSelectedDayCell:cell];
+        
         // TODO: Call some delegate being passed around...
         [self setNeedsLayout];
     }
@@ -95,29 +102,34 @@ static const CGSize kDayCellSize = { 46.f, 44.f };
         return;
     }
     
-    NSInteger totalCells = _visibleWeeks * 7;
-    iMonthlyDayCellView * dayCell = Nil;
-    
+    NSInteger totalCells = kVisibleWeeks * 7;
     for (int x = 0; x < totalCells; x++) {
-        dayCell = (iMonthlyDayCellView *)[self.subviews objectAtIndex:x];
-        
+        iMonthlyDayCellView *dayCell = (iMonthlyDayCellView *)[[self subviews] objectAtIndex:x];
+
+        kDayCellState cellState = kDayCellStateOutOfMonth;
         NSInteger offset = x - (_firstWeekdayInMonth - 1);
-        NSDate * thisDate = [_currentMonth dateWithDayOffset:offset];
+        NSDate *thisDate = [_currentMonth dateWithDayOffset:offset];
         [dayCell setDate:thisDate];
         
         if ([_currentMonth monthContainsDay:thisDate]) {
-            [dayCell setDayCellState:kDayCellStateInMonth];
-        } else {
-            [dayCell setDayCellState:kDayCellStateOutOfMonth];
-        }
-        
-        if (_currentMonth && [thisDate isSameDate:_today]) {
-            [dayCell setDayCellState:kDayCellStateToday];
+            cellState = kDayCellStateInMonth;
         }
         
         if (_selectedDayCell != Nil && _selectedDayCell == dayCell) {
-            [dayCell setDayCellState:kDayCellStateSelected];
+            cellState = kDayCellStateSelected;
         }
+        
+        if ([thisDate isSameDate:_todaysDate]) {
+            // Set initial selection
+            if (_selectedDayCell == Nil) [self setSelectedDayCell:dayCell];
+            cellState = kDayCellStateToday;
+
+            if (_selectedDayCell != Nil && _selectedDayCell == dayCell) {
+                cellState = kDayCellStateTodaySelected;
+            }
+        }
+        
+        [dayCell setCellState:cellState];
     }
 }
 
@@ -125,10 +137,11 @@ static const CGSize kDayCellSize = { 46.f, 44.f };
 {
     CGContextRef context = UIGraphicsGetCurrentContext();
     
-    UIColor * lightColor = [UIColor colorWithRed:154.0/255.0 green:158.0/255.0 blue:167.0/255.0 alpha:0.75];
-    UIColor * whiteColor = [UIColor whiteColor];
-    UIBezierPath * gridPath = [UIBezierPath bezierPath];
-    gridPath.lineWidth = 1.0;
+    UIColor *lightColor = RGBA(154, 158, 167, 0.75);
+    UIColor *whiteColor = RGB(255, 255, 255);
+
+    UIBezierPath *gridPath = [UIBezierPath bezierPath];
+    [gridPath setLineWidth:1.0];
     
     // Add Horizontal ones first
     for (int i = 0; i < 7; i++) {  // TODO: replace with number of weeks
@@ -145,11 +158,11 @@ static const CGSize kDayCellSize = { 46.f, 44.f };
     }
 
     // Render the Inset
-    CGContextSaveGState(context);
-    CGContextTranslateCTM(context, -1, 1);
-    [whiteColor setStroke];
-    [gridPath stroke];
-    CGContextRestoreGState(context);
+    CGContextSaveGState(context); {
+        CGContextTranslateCTM(context, -1, 1);
+        [whiteColor setStroke];
+        [gridPath stroke];
+    } CGContextRestoreGState(context);
     
     // Render Stroke
     [lightColor setStroke];

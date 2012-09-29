@@ -9,27 +9,24 @@
 #import "iMonthlyDayCellView.h"
 #import "iMonthlyCommon.h"
 
-static const CGSize kLabelSize = { 30.f, 22.f };
+@interface iMonthlyDayCellView ()
 
-@interface iMonthlyDayCellView (Private)
-
-- (UIImage *)gradientImage;
+- (void)drawTodaySelectedCellRect:(CGRect)rect;
+- (void)drawTodayCellRect:(CGRect)rect;
+- (void)drawSelectedCellRect:(CGRect)rect;
 
 @end
 
+static const CGSize kLabelSize = { 30.f, 22.f };
 
 @implementation iMonthlyDayCellView
 {
-    kDayCellState _cellState;
-    
-    CGRect _originalFrame;
-    UIFont * _font;
-    UIColor * _textColor;
-    UIColor * _shadowColor;
-    CGSize _shadowOffset;
+    CGRect      _originalFrame;
+    UIFont      *_font;
 }
 
 @synthesize date = _date;
+@synthesize cellState = _cellState;
 
 
 - (id)initWithFrame:(CGRect)frame
@@ -40,7 +37,7 @@ static const CGSize kLabelSize = { 30.f, 22.f };
         self.opaque = NO;
         self.backgroundColor = [UIColor clearColor];
         _font = [UIFont boldSystemFontOfSize:24.f];
-        [self setDayCellState:kDayCellStateUnKnown];
+        [self setCellState:kDayCellStateUnKnown];
     }
     return self;
 }
@@ -53,74 +50,108 @@ static const CGSize kLabelSize = { 30.f, 22.f };
     [self setNeedsDisplay];
 }
 
-- (void)setDayCellState:(kDayCellState)state
+- (void)setCellState:(kDayCellState)state
 {
-    _cellState = state;
-    
-    switch (_cellState) {
-        case kDayCellStateOutOfMonth:
-            _textColor = [UIColor colorWithPatternImage:[iMonthlyCommon sharedInstance].lightTextPatternImage];
-            _shadowColor = [UIColor whiteColor];
-            _shadowOffset = CGSizeMake(0, 1);
-            break;
-        case kDayCellStateToday:
-            _textColor = [UIColor whiteColor];
-            _shadowColor = [UIColor colorWithPatternImage:[iMonthlyCommon sharedInstance].darkTextPatternImage];
-            _shadowOffset = CGSizeMake(0, 1);
-            
-            CGRect todayRect = rectByChangingSize(_originalFrame, 1, 1);
-            self.frame = todayRect;
-            break;
-        case kDayCellStateSelected:
-            _textColor = [UIColor whiteColor];
-            _shadowColor = [UIColor colorWithPatternImage:[iMonthlyCommon sharedInstance].darkTextPatternImage];
-            _shadowOffset = CGSizeMake(0, -1);
-            
-            CGRect selectedRect = rectByChangingSize(_originalFrame, 1, 1);
-            self.frame = selectedRect;
-            break;
-        case kDayCellStateInMonth:
-        default:
-            _textColor = [UIColor colorWithPatternImage:[iMonthlyCommon sharedInstance].darkTextPatternImage];
-            _shadowColor = [UIColor whiteColor];
-            _shadowOffset = CGSizeMake(0, 1);
-            break;
-    }
-    
+    _cellState = state;    
     [self setNeedsDisplay];
 }
 
 - (void)drawRect:(CGRect)rect
 {
     CGContextRef context = UIGraphicsGetCurrentContext();
+    UIColor * _textColor = nil;
+    UIColor * _shadowColor = nil;
+    CGSize _shadowOffset = CGSizeMake(0, 1);
+    CGRect largerRect = rectByChangingSize(_originalFrame, 1, 1);
 
-    if (_cellState == kDayCellStateToday) {
-        [[UIColor colorWithRed:54.0/255.0 green:79.0/255.0 blue:114.0/255.0 alpha:0.8] setFill];
-        CGContextFillRect(context, rect);
-                
-        CGRect inner = CGRectInset(rect, 1, 1);
-        [[UIColor colorWithRed:250.0/255.0 green:250.0/255.0 blue:250.0/255.0 alpha:0.4] setFill];
-        CGContextFillRect(context, inner);        
+    switch (_cellState) {
+        case kDayCellStateOutOfMonth:
+            _textColor = [UIColor colorWithPatternImage:[[iMonthlyCommon sharedInstance] lightTextPatternImage]];
+            _shadowColor = [UIColor whiteColor];
+            break;
+        case kDayCellStateToday:
+            _textColor = [UIColor whiteColor];
+            _shadowColor = [UIColor colorWithPatternImage:[[iMonthlyCommon sharedInstance] darkTextPatternImage]];
+            
+            [self setFrame:largerRect];
+            [self drawTodayCellRect:rect];
+            break;
+        case kDayCellStateTodaySelected:
+            _textColor = [UIColor whiteColor];
+            _shadowColor = [UIColor colorWithPatternImage:[[iMonthlyCommon sharedInstance] darkTextPatternImage]];
+            
+            [self setFrame:largerRect];
+            [self drawTodaySelectedCellRect:rect];
+            break;
+        case kDayCellStateSelected:
+            _textColor = [UIColor whiteColor];
+            _shadowColor = [UIColor colorWithPatternImage:[[iMonthlyCommon sharedInstance] darkTextPatternImage]];
+            _shadowOffset = CGSizeMake(0, -1);
+            
+            [self setFrame:largerRect];
+            [self drawSelectedCellRect:rect];
+            break;
+        case kDayCellStateInMonth:
+        default:
+            _textColor = [UIColor colorWithPatternImage:[[iMonthlyCommon sharedInstance] darkTextPatternImage]];
+            _shadowColor = [UIColor whiteColor];
+            break;
     }
-    
-    if (_cellState == kDayCellStateSelected) {
-        CGColorRef strokeColor = [UIColor colorWithRed:41.0/255.0 green:54.0/255.0 blue:73.0/255.0 alpha:1.0].CGColor;
-        CGColorRef topColor = [UIColor colorWithRed:0/255.0 green:114.0/255.0 blue:226.0/255.0 alpha:1.0].CGColor;
-        CGColorRef bottomColor = [UIColor colorWithRed:0/255.0 green:114.0/255.0 blue:226.0/255.0 alpha:1.0].CGColor;
 
-        drawGlossAndGradient(context, rect, topColor, bottomColor);
-        CGContextSetStrokeColorWithColor(context, strokeColor);
-        CGContextStrokeRect(context, rectFor1PxStroke(rect));
-    }
     
     CGRect _labelRect = CGRectMake((rect.size.width - kLabelSize.width) / 2, 4, kLabelSize.width, kLabelSize.height);
     CGContextSetFillColorWithColor(context, _textColor.CGColor);
     CGContextSetShadowWithColor(context, _shadowOffset, 1, _shadowColor.CGColor);
-    [[NSString stringWithFormat:@"%u", [_date dayNumber]] 
-     drawInRect:_labelRect 
-     withFont:_font 
-     lineBreakMode:UILineBreakModeClip 
-     alignment:UITextAlignmentCenter];
+    
+    NSString *label = [NSString stringWithFormat:@"%u", [_date dayNumber]];
+    [label drawInRect:_labelRect withFont:_font lineBreakMode:UILineBreakModeClip alignment:UITextAlignmentCenter];
+}
+
+- (void)drawTodaySelectedCellRect:(CGRect)rect
+{
+    // TODO: I would like to do an emboss effect like this:
+    //   http://stackoverflow.com/questions/10417982/draw-embossed-arc-using-core-graphics
+    
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    UIColor *strokeColor = [UIColor colorWithRed:41.0/255.0 green:54.0/255.0 blue:73.0/255.0 alpha:1.0];
+    UIColor *topColor = [UIColor colorWithRed:0/255.0 green:114.0/255.0 blue:226.0/255.0 alpha:1.0];
+    UIColor *bottomColor = [UIColor colorWithRed:0/255.0 green:114.0/255.0 blue:226.0/255.0 alpha:1.0];
+    
+    drawGlossAndGradient(context, rect, topColor.CGColor, bottomColor.CGColor);
+    CGContextSetStrokeColorWithColor(context, strokeColor.CGColor);
+    CGContextStrokeRect(context, rectFor1PxStroke(rect));
+}
+
+- (void)drawTodayCellRect:(CGRect)rect
+{
+    // TODO: I would like to do an emboss effect like this:
+    //   http://stackoverflow.com/questions/10417982/draw-embossed-arc-using-core-graphics
+    
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    UIColor *topColor = [UIColor colorWithRed:54.0/255.0 green:79.0/255.0 blue:114.0/255.0 alpha:0.8];
+    UIColor *bottomColor = [UIColor colorWithRed:250.0/255.0 green:250.0/255.0 blue:250.0/255.0 alpha:0.4];
+
+    [topColor setFill];
+    CGContextFillRect(context, rect);
+
+    CGRect inner = CGRectInset(rect, 1, 1);
+    [bottomColor setFill];
+    CGContextFillRect(context, inner);
+}
+
+- (void)drawSelectedCellRect:(CGRect)rect
+{
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    UIColor *strokeColor = [UIColor colorWithRed:41.0/255.0 green:54.0/255.0 blue:73.0/255.0 alpha:1.0];
+    UIColor *topColor = [UIColor colorWithRed:0/255.0 green:114.0/255.0 blue:226.0/255.0 alpha:1.0];
+    UIColor *bottomColor = [UIColor colorWithRed:0/255.0 green:114.0/255.0 blue:226.0/255.0 alpha:1.0];
+    
+    drawGlossAndGradient(context, rect, topColor.CGColor, bottomColor.CGColor);
+    CGContextSetStrokeColorWithColor(context, strokeColor.CGColor);
+    CGContextStrokeRect(context, rectFor1PxStroke(rect));
 }
 
 @end

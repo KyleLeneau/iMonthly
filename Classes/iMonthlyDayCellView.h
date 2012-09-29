@@ -13,14 +13,14 @@ typedef enum {
     kDayCellStateOutOfMonth,
 	kDayCellStateInMonth,
 	kDayCellStateSelected,
-    kDayCellStateToday
+    kDayCellStateToday,
+    kDayCellStateTodaySelected
 } kDayCellState;
 
 
 @interface iMonthlyDayCellView : UIView
 
-@property (nonatomic, strong) NSDate * date;
-
-- (void)setDayCellState:(kDayCellState)state;
+@property (nonatomic, assign) kDayCellState cellState;
+@property (nonatomic, strong) NSDate *date;
 
 @end

@@ -12,15 +12,16 @@ static const CGRect kArrowRect = { 0, 0, 15, 20 };
 
 @implementation iMonthlyCommon
 {
-    CGColorRef topArrowColor;
-    CGColorRef bottomArrowColor;
-    CGColorRef shadowColor;
+    UIColor *topArrowColor;
+    UIColor *bottomArrowColor;
+    UIColor *shadowColor;
     
     UIImage * _leftArrowImage;
     UIImage * _rightArrowImage;
     UIImage * _headerPatternImage;
     UIImage * _darkTextPatternImage;
     UIImage * _lightTextPatternImage;
+    UIFont * _dateCellFont;
 }
 
 
@@ -29,9 +30,9 @@ static iMonthlyCommon * _sharedInstance;
 - (id)init
 {
     if ((self = [super init])) {
-        topArrowColor = [UIColor colorWithRed:46.0/255.0 green:57.0/255.0 blue:68.0/255.0 alpha:1.0].CGColor;
-        bottomArrowColor = [UIColor colorWithRed:74.0/255.0 green:91.0/255.0 blue:110.0/255.0 alpha:1.0].CGColor;
-        shadowColor = [UIColor whiteColor].CGColor;
+        topArrowColor = [UIColor colorWithRed:46.0/255.0 green:57.0/255.0 blue:68.0/255.0 alpha:1.0];
+        bottomArrowColor = [UIColor colorWithRed:74.0/255.0 green:91.0/255.0 blue:110.0/255.0 alpha:1.0];
+        shadowColor = [UIColor whiteColor];
     }
     return self;
 }
@@ -66,14 +67,14 @@ static iMonthlyCommon * _sharedInstance;
         // Add the path to the context with the shadow and no fill
         CGContextSaveGState(context);
         CGContextAddPath(context, path.CGPath);
-        CGContextSetShadowWithColor(context, CGSizeMake(0.5, 1), 1.0, shadowColor);
+        CGContextSetShadowWithColor(context, CGSizeMake(0.5, 1), 1.0, shadowColor.CGColor);
         CGContextFillPath(context);
         CGContextRestoreGState(context);
         
         
         // Create a gradient over the top of above by masking (clipping) to the path used
         CGColorSpaceRef baseSpace = CGColorSpaceCreateDeviceRGB();
-        NSArray * colors = [NSArray arrayWithObjects:(__bridge id)topArrowColor, (__bridge id)bottomArrowColor, nil];
+        NSArray * colors = [NSArray arrayWithObjects:(__bridge id)topArrowColor.CGColor, (__bridge id)bottomArrowColor.CGColor, nil];
         CGGradientRef gradient = CGGradientCreateWithColors(baseSpace, (__bridge CFArrayRef)colors, NULL);
         CGColorSpaceRelease(baseSpace), baseSpace = NULL;
         
@@ -114,14 +115,14 @@ static iMonthlyCommon * _sharedInstance;
         // Add the path to the context with the shadow and no fill
         CGContextSaveGState(context);
         CGContextAddPath(context, path.CGPath);
-        CGContextSetShadowWithColor(context, CGSizeMake(-0.5, 1), 1.0, shadowColor);
+        CGContextSetShadowWithColor(context, CGSizeMake(-0.5, 1), 1.0, shadowColor.CGColor);
         CGContextFillPath(context);
         CGContextRestoreGState(context);
         
         
         // Create a gradient over the top of above by masking (clipping) to the path used
         CGColorSpaceRef baseSpace = CGColorSpaceCreateDeviceRGB();
-        NSArray * colors = [NSArray arrayWithObjects:(__bridge id)topArrowColor, (__bridge id)bottomArrowColor, nil];
+        NSArray * colors = [NSArray arrayWithObjects:(__bridge id)topArrowColor.CGColor, (__bridge id)bottomArrowColor.CGColor, nil];
         CGGradientRef gradient = CGGradientCreateWithColors(baseSpace, (__bridge CFArrayRef)colors, NULL);
         CGColorSpaceRelease(baseSpace), baseSpace = NULL;
         
@@ -150,10 +151,10 @@ static iMonthlyCommon * _sharedInstance;
         UIGraphicsBeginImageContextWithOptions(patternRect.size, NO, 1.0);
         CGContextRef context = UIGraphicsGetCurrentContext();
         
-        CGColorRef topColor = [UIColor colorWithRed:246.0/255.0 green:246.0/255.0 blue:247.0/255.0 alpha:1.0].CGColor; 
-        CGColorRef bottomColor = [UIColor colorWithRed:204.0/255.0 green:204.0/255.0 blue:209.0/255.0 alpha:1.0].CGColor;
+        UIColor *topColor = [UIColor colorWithRed:246.0/255.0 green:246.0/255.0 blue:247.0/255.0 alpha:1.0];
+        UIColor *bottomColor = [UIColor colorWithRed:204.0/255.0 green:204.0/255.0 blue:209.0/255.0 alpha:1.0];
         
-        drawLinearGradient(context, patternRect, topColor, bottomColor);
+        drawLinearGradient(context, patternRect, topColor.CGColor, bottomColor.CGColor);
         
         _headerPatternImage = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
@@ -170,7 +171,7 @@ static iMonthlyCommon * _sharedInstance;
         UIGraphicsBeginImageContextWithOptions(patternRect.size, NO, 1.0);
         CGContextRef context = UIGraphicsGetCurrentContext();
         
-        drawLinearGradient(context, patternRect, topArrowColor, bottomArrowColor);
+        drawLinearGradient(context, patternRect, topArrowColor.CGColor, bottomArrowColor.CGColor);
         
         _darkTextPatternImage = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
@@ -187,15 +188,23 @@ static iMonthlyCommon * _sharedInstance;
         UIGraphicsBeginImageContextWithOptions(patternRect.size, NO, 1.0);
         CGContextRef context = UIGraphicsGetCurrentContext();
         
-        CGColorRef top = [UIColor colorWithRed:139.0/255.0 green:144.0/255.0 blue:150.0/255.0 alpha:1].CGColor;
-        CGColorRef bottom = [UIColor colorWithRed:153.0/255.0 green:162.0/255.0 blue:172.0/255.0 alpha:1].CGColor;
-        drawLinearGradient(context, patternRect, top, bottom);
+        UIColor *top = [UIColor colorWithRed:139.0/255.0 green:144.0/255.0 blue:150.0/255.0 alpha:1];
+        UIColor *bottom = [UIColor colorWithRed:153.0/255.0 green:162.0/255.0 blue:172.0/255.0 alpha:1];
+        drawLinearGradient(context, patternRect, top.CGColor, bottom.CGColor);
         
         _lightTextPatternImage = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
     }
     
     return _lightTextPatternImage;
+}
+
+- (UIFont *)dateCellFont
+{
+    if (!_dateCellFont) {
+        _dateCellFont = [UIFont boldSystemFontOfSize:24.f];
+    }
+    return _dateCellFont;
 }
 
 @end
