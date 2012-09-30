@@ -20,6 +20,7 @@
 		27B6EDAF14A82F0F004053F2 /* KLAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 27B6EDAE14A82F0F004053F2 /* KLAppDelegate.m */; };
 		27B6EDCD14A98C75004053F2 /* iMonthlyView.m in Sources */ = {isa = PBXBuildFile; fileRef = 27B6EDCC14A98C75004053F2 /* iMonthlyView.m */; };
 		27B6EDD014A98CB9004053F2 /* NSDate+iMontly.m in Sources */ = {isa = PBXBuildFile; fileRef = 27B6EDCF14A98CB9004053F2 /* NSDate+iMontly.m */; };
+		27E647BB1617E9800074F781 /* EmptyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27E647BA1617E9800074F781 /* EmptyViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -49,6 +50,8 @@
 		27B6EDCC14A98C75004053F2 /* iMonthlyView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iMonthlyView.m; sourceTree = "<group>"; };
 		27B6EDCE14A98CB9004053F2 /* NSDate+iMontly.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+iMontly.h"; sourceTree = "<group>"; };
 		27B6EDCF14A98CB9004053F2 /* NSDate+iMontly.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+iMontly.m"; sourceTree = "<group>"; };
+		27E647B91617E9800074F781 /* EmptyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmptyViewController.h; sourceTree = "<group>"; };
+		27E647BA1617E9800074F781 /* EmptyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmptyViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +83,8 @@
 			children = (
 				27058B6914AC58DC00222ADC /* BasicViewController.h */,
 				27058B6A14AC58DC00222ADC /* BasicViewController.m */,
+				27E647B91617E9800074F781 /* EmptyViewController.h */,
+				27E647BA1617E9800074F781 /* EmptyViewController.m */,
 			);
 			path = Basic;
 			sourceTree = "<group>";
@@ -216,6 +221,7 @@
 				27058B7714AE91E300222ADC /* iMonthlyDayCellView.m in Sources */,
 				27058B7A14B03C7600222ADC /* iMonthlyCommon.m in Sources */,
 				274AEF7C14CD0633009401FF /* UIView+iMonthly.m in Sources */,
+				27E647BB1617E9800074F781 /* EmptyViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

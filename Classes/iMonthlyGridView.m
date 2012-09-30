@@ -136,7 +136,7 @@ static const CGSize kDayCellSize = { 46.f, 44.f };
 - (void)drawRect:(CGRect)rect
 {
     CGContextRef context = UIGraphicsGetCurrentContext();
-    
+
     UIColor *lightColor = RGBA(154, 158, 167, 0.75);
     UIColor *whiteColor = RGB(255, 255, 255);
 

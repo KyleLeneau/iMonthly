@@ -13,6 +13,13 @@
 #define RGB(r, g, b) [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:1]
 #define RGBA(r, g, b, a) [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:a]
 
+static const CGFloat kHeaderHeight = 44.f;
+static const CGFloat kMonthLabelWidth = 240.0f;
+static const CGFloat kMonthLabelHeight = 24.f;
+static const CGFloat kChangeMonthButtonWidth = 46.0f;
+static const CGFloat kChangeMonthButtonHeight = 30.0f;
+
+
 @interface iMonthlyCommon : NSObject
 
 @property (nonatomic, readonly) UIImage * leftArrowImage;

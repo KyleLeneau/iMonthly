@@ -21,17 +21,11 @@ typedef enum {
 
 @end
 
-static const CGFloat kHeaderHeight = 44.f;
-static const CGFloat kMonthLabelWidth = 240.0f;
-static const CGFloat kMonthLabelHeight = 24.f;
-static const CGFloat kChangeMonthButtonWidth = 46.0f;
-static const CGFloat kChangeMonthButtonHeight = 30.0f;
-
 @implementation iMonthlyView
 {
     CGRect _headerRect;
     CGRect _gridRect;
-    
+
     UIColor * _headerTextColor;
     
     UIView * _headerView;
@@ -59,7 +53,7 @@ static const CGFloat kChangeMonthButtonHeight = 30.0f;
     _headerRect = CGRectMake(0, 0, self.frame.size.width, kHeaderHeight);
     _gridRect = CGRectMake(0, kHeaderHeight, self.frame.size.width, self.frame.size.height - kHeaderHeight);
     
-    _headerTextColor = [UIColor colorWithRed:84.0/255.0 green:84.0/255.0 blue:84.0/255.0 alpha:1.0];
+    _headerTextColor = RGB(84, 84, 84);
     
     
     // Setup Header Views
@@ -205,6 +199,10 @@ static const CGFloat kChangeMonthButtonHeight = 30.0f;
 
 - (void)showPreviousMonth
 {
+    if (_transitioning) {
+        return;
+    }
+    
     self.currentMonth = [_currentMonth monthFromMonthOffset:-1];
     [_backGridView setCurrentMonth:_currentMonth];
     [self transitionMonthView:kRollDown];
@@ -212,6 +210,10 @@ static const CGFloat kChangeMonthButtonHeight = 30.0f;
 
 - (void)showNextMonth
 {
+    if (_transitioning) {
+        return;
+    }
+    
     self.currentMonth = [_currentMonth monthFromMonthOffset:1];
     [_backGridView setCurrentMonth:_currentMonth];
     [self transitionMonthView:kRollUp];
@@ -222,22 +224,12 @@ static const CGFloat kChangeMonthButtonHeight = 30.0f;
 
 - (void)layoutSubviews
 {
-    _previousMonthButton.center = CGPointMake(20, 20);
-    _nextMonthButton.center = CGPointMake(300, 20);
-    
-    _headerTitleLabel.center = CGPointMake(160, 20);
+    _previousMonthButton.center =   CGPointMake(20, 20);
+    _nextMonthButton.center = CGPointMake(CGRectGetMaxX(_headerRect) - 20, 20);
+    _headerTitleLabel.center = CGPointMake(CGRectGetMidX(_headerRect), 20);
     _gridRect = _frontGridView.frame;
     
     [self setNeedsDisplay];
-}
-
-- (void)drawHeaderView
-{
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    
-    UIColor *topColor = RGB(246, 246, 247);
-    UIColor *bottomColor = RGB(204, 204, 209);
-    drawLinearGradient(context, _headerRect, topColor.CGColor, bottomColor.CGColor);
 }
 
 - (void)drawGridView
@@ -249,20 +241,17 @@ static const CGFloat kChangeMonthButtonHeight = 30.0f;
     drawLinearGradient(context, _gridRect, topColor.CGColor, bottomColor.CGColor);
 }
 
-- (void)drawBottomShadowView
-{
-    CGContextRef context = UIGraphicsGetCurrentContext();
-
-    UIColor *topColor = RGB(246, 246, 247);
-    UIColor *bottomColor = RGB(204, 204, 209);
-    CGRect shadowRect = CGRectMake(CGRectGetMinX(_gridRect), CGRectGetMaxY(_gridRect), _gridRect.size.width, _gridRect.size.height);
-    
-    drawLinearGradient(context, shadowRect, topColor.CGColor, bottomColor.CGColor);
-}
+//- (void)drawBottomShadowView
+//{
+//    CGContextRef context = UIGraphicsGetCurrentContext();
+//
+//    UIColor *topColor = RGBA(246, 246, 247, 1);
+//    UIColor *bottomColor = RGBA(204, 204, 209, 0);
+//    drawLinearGradient(context, _shadowRect, topColor.CGColor, bottomColor.CGColor);
+//}
 
 - (void)drawRect:(CGRect)rect
 {
-    [self drawHeaderView]; // Obsolete, replaced by a UIView and Pattern Image for effect
     [self drawGridView];
 //    [self drawBottomShadowView];
 }

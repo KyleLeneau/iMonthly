@@ -59,8 +59,8 @@ static const CGSize kLabelSize = { 30.f, 22.f };
 - (void)drawRect:(CGRect)rect
 {
     CGContextRef context = UIGraphicsGetCurrentContext();
-    UIColor * _textColor = nil;
-    UIColor * _shadowColor = nil;
+    UIColor * _textColor = [UIColor whiteColor];
+    UIColor * _shadowColor = [UIColor colorWithPatternImage:[[iMonthlyCommon sharedInstance] darkTextPatternImage]];
     CGSize _shadowOffset = CGSizeMake(0, 1);
     CGRect largerRect = rectByChangingSize(_originalFrame, 1, 1);
 
@@ -70,22 +70,14 @@ static const CGSize kLabelSize = { 30.f, 22.f };
             _shadowColor = [UIColor whiteColor];
             break;
         case kDayCellStateToday:
-            _textColor = [UIColor whiteColor];
-            _shadowColor = [UIColor colorWithPatternImage:[[iMonthlyCommon sharedInstance] darkTextPatternImage]];
-            
             [self setFrame:largerRect];
             [self drawTodayCellRect:rect];
             break;
         case kDayCellStateTodaySelected:
-            _textColor = [UIColor whiteColor];
-            _shadowColor = [UIColor colorWithPatternImage:[[iMonthlyCommon sharedInstance] darkTextPatternImage]];
-            
             [self setFrame:largerRect];
             [self drawTodaySelectedCellRect:rect];
             break;
         case kDayCellStateSelected:
-            _textColor = [UIColor whiteColor];
-            _shadowColor = [UIColor colorWithPatternImage:[[iMonthlyCommon sharedInstance] darkTextPatternImage]];
             _shadowOffset = CGSizeMake(0, -1);
             
             [self setFrame:largerRect];
@@ -114,9 +106,9 @@ static const CGSize kLabelSize = { 30.f, 22.f };
     
     CGContextRef context = UIGraphicsGetCurrentContext();
     
-    UIColor *strokeColor = [UIColor colorWithRed:41.0/255.0 green:54.0/255.0 blue:73.0/255.0 alpha:1.0];
-    UIColor *topColor = [UIColor colorWithRed:0/255.0 green:114.0/255.0 blue:226.0/255.0 alpha:1.0];
-    UIColor *bottomColor = [UIColor colorWithRed:0/255.0 green:114.0/255.0 blue:226.0/255.0 alpha:1.0];
+    UIColor *strokeColor = RGB(41, 54, 73);
+    UIColor *topColor = RGB(0, 114, 226);
+    UIColor *bottomColor = RGB(0, 114, 226);
     
     drawGlossAndGradient(context, rect, topColor.CGColor, bottomColor.CGColor);
     CGContextSetStrokeColorWithColor(context, strokeColor.CGColor);
@@ -130,8 +122,8 @@ static const CGSize kLabelSize = { 30.f, 22.f };
     
     CGContextRef context = UIGraphicsGetCurrentContext();
     
-    UIColor *topColor = [UIColor colorWithRed:54.0/255.0 green:79.0/255.0 blue:114.0/255.0 alpha:0.8];
-    UIColor *bottomColor = [UIColor colorWithRed:250.0/255.0 green:250.0/255.0 blue:250.0/255.0 alpha:0.4];
+    UIColor *topColor = RGBA(54, 79, 114, 0.8);
+    UIColor *bottomColor = RGBA(250, 250, 250, 0.4);
 
     [topColor setFill];
     CGContextFillRect(context, rect);
@@ -145,9 +137,9 @@ static const CGSize kLabelSize = { 30.f, 22.f };
 {
     CGContextRef context = UIGraphicsGetCurrentContext();
     
-    UIColor *strokeColor = [UIColor colorWithRed:41.0/255.0 green:54.0/255.0 blue:73.0/255.0 alpha:1.0];
-    UIColor *topColor = [UIColor colorWithRed:0/255.0 green:114.0/255.0 blue:226.0/255.0 alpha:1.0];
-    UIColor *bottomColor = [UIColor colorWithRed:0/255.0 green:114.0/255.0 blue:226.0/255.0 alpha:1.0];
+    UIColor *strokeColor = RGB(41, 54, 73);
+    UIColor *topColor = RGB(0, 114, 226);
+    UIColor *bottomColor = RGB(0, 114, 226);
     
     drawGlossAndGradient(context, rect, topColor.CGColor, bottomColor.CGColor);
     CGContextSetStrokeColorWithColor(context, strokeColor.CGColor);

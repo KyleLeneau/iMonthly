@@ -8,6 +8,7 @@
 
 #import "ExampleSelectionViewController.h"
 #import "BasicViewController.h"
+#import "EmptyViewController.h"
 
 
 @implementation ExampleSelectionViewController
@@ -59,7 +60,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 1;
+    return 2;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -77,6 +78,9 @@
         case 0:
             cell.textLabel.text = @"Basic iMonthly Example";
             break;
+        case 1:
+            cell.textLabel.text = @"Empty View Controller";
+            break;
     }
     
     return cell;
@@ -91,6 +95,9 @@
     switch (indexPath.row) {
         case 0:
             example = [[BasicViewController alloc] init];
+            break;
+        case 1:
+            example = [[EmptyViewController alloc] init];
             break;
     }
     
